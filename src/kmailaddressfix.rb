@@ -119,7 +119,13 @@ while (read = gets)
 				out = "#{read.split(":")[0]}: "
 			end
 			
-			puts "#{out}\"#{@@addresses[email]}\" <#{email}>"
+			out = "#{out}#{@@addresses[email]} <#{email}>"
+			
+			if (read.include?(","))
+				out = "#{out},"
+			end
+			
+			puts out
 		end
 	else
 		puts read.chomp
