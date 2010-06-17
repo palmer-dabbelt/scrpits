@@ -502,7 +502,46 @@ class PDFCropPDF
 		return out
 	end
 end
-	
+
+class POVRayPDF
+	def POVRayPDF.is_item(path)
+		return File.exists?("#{path.chomp(".pdf")}.pov")
+	end
+
+	def POVRayPDF.deps(path)
+		out = SVGImagePDF.more(path)
+		
+		out.push("#{path.chomp(".pdf")}.pov")
+		
+		return out
+	end
+
+	def POVRayPDF.cmds(path)
+		out = Array.new
+		
+		out.push("povray #{path.chomp(".pdf")}.pov -geometry 4000x3000 -D")
+		out.push("convert #{path.chomp(".pdf")}.png #{path.chomp(".pdf")}.pdf")
+		out.push("rm #{path.chomp(".pdf")}.png")
+		
+		return out
+	end
+
+	def POVRayPDF.created(path)
+		out = Array.new
+		
+		out.push("#{path.chomp(".pdf")}.pdf")
+		out.push("#{path.chomp(".pdf")}.png")
+		
+		return out
+	end
+
+	def POVRayPDF.more(path)
+		out = Array.new
+		
+		return out
+	end
+end
+
 
 # How we can process each type of file
 @@processors = Array.new
@@ -514,6 +553,7 @@ end
 @@processors.push(PNGImagePDF)
 @@processors.push(JPEGImagePDF)
 @@processors.push(PDFCropPDF)
+@@processors.push(POVRayPDF)
 
 # All the .tex files in our item
 to_process = Array.new
