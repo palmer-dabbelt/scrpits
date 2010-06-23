@@ -16,6 +16,14 @@ class String
 			return self[0 .. other.size - 1] == other
 		end
 	end
+	
+	def chomp_front!(other)
+		replace(chomp_front(other))
+	end
+	
+	def chomp_front(other)
+		return self.reverse.chomp(other.reverse).reverse
+	end
 end
 
 class Dep
@@ -275,11 +283,23 @@ class GNUPlotPDF
 		
 		out.push("#{path.chomp(".pdf")}.gnuplot")
 		
-		if (File.exists?("#{path.chomp(".pdf")}.dat.in"))
-			out.push("#{path.chomp(".pdf")}.dat")
-		elsif (File.exists?("#{path.chomp(".pdf")}.dat"))
-			out.push("#{path.chomp(".pdf")}.dat")
+		file = File.new("#{path.chomp(".pdf")}.gnuplot", "r")
+		while (read = file.gets)
+			read.strip!
+			
+			if (read.starts_with("plot") && read.include?("using"))
+				datfile = read.split("using")[0]
+				datfile.strip!
+				datfile.chomp_front!("plot")
+				datfile.strip!
+				datfile.chomp_front!("\"")
+				datfile.chomp!("\"")
+				datfile.strip!
+				
+				out.push(datfile)
+			end
 		end
+		file.close
 		
 		return out
 	end
@@ -309,9 +329,11 @@ class GNUPlotPDF
 	def GNUPlotPDF.more(path)
 		out = Array.new
 		
-		if (File.exists?("#{path.chomp(".pdf")}.dat.in"))
-			out.push("#{path.chomp(".pdf")}.dat")
-		end
+		GNUPlotPDF.deps(path).each{|dep|
+			if (File.exists?("#{dep}.in") && File.exists?("#{dep}.proc"))
+				out.push("#{dep}")
+			end
+		}
 		
 		return out
 	end
@@ -323,7 +345,7 @@ class GNUPlotDAT
 	end
 	
 	def GNUPlotDAT.deps(path)
-		out = GNUPlotPDF.more(path)
+		out = Array.new
 		
 		out.push("#{path.chomp(".dat")}.dat.in")
 		out.push("#{path.chomp(".dat")}.dat.proc")
