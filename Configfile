@@ -3,55 +3,84 @@ LANGUAGES += bash
 
 TARGETS += 2mp3
 SOURCES += 2mp3.rb
+
 TARGETS += coveradd
 SOURCES += coveradd.rb
+
 TARGETS += cnotes
 SOURCES += cnotes.rb
+
 TARGETS += djvu2pdf
 SOURCES += djvu2pdf.bash
+
 TARGETS += gpgcat
 SOURCES += gpgcat.bash
+
 TARGETS += journal
 SOURCES += journal.rb
+
 TARGETS += kmailaddressfix
 SOURCES += kmailaddressfix.rb
+
 TARGETS += kmailgpgfix
 SOURCES += kmailgpgfix.rb
+
 TARGETS += midentify
 SOURCES += midentify.bash
+
 TARGETS += musicadd
 SOURCES += musicadd.rb
+
 TARGETS += musicsync
 SOURCES += musicsync.rb
+
 TARGETS += nsync
 SOURCES += nsync.bash
+
 TARGETS += ods2prn
 SOURCES += ods2prn.rb
+
 TARGETS += pgame
 SOURCES += pgame.bash
+
 TARGETS += prsdl
 SOURCES += prsdl.rb
+
 TARGETS += ptimer
 SOURCES += ptimer.rb
+
 TARGETS += pwine
 SOURCES += pwine.bash
+
 TARGETS += randompass
 SOURCES += randompass.rb
+
 TARGETS += randomtv
 SOURCES += randomtv.rb
+
+TARGETS += recipe_manager
+SOURCES += recipe_manager.rb
+
 TARGETS += tek
 SOURCES += tek.rb
+
 TARGETS += texstrip
 SOURCES += texstrip.bash
+
 TARGETS += videocomp
 SOURCES += videocomp.bash
+
 TARGETS += videocomp_ipad
 SOURCES += videocomp_ipad.bash
+
 TARGETS += videocomp_droid
 SOURCES += videocomp_droid.bash
+
 TARGETS += vplayer
 SOURCES += vplayer.bash
+
 TARGETS += woof
 SOURCES += woof.rb
+
 TARGETS += winetricks
 SOURCES += winetricks.bash
