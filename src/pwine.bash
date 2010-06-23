@@ -11,20 +11,6 @@ then
 	exit $?
 fi
 
-if [[ "$1" == "l4d" ]]
-then
-	nvidia-settings -a "LogAnisoAppControlled=0"
-	nvidia-settings -a "FSAAAppEnhanced=0"
-	nvidia-settings -a "FSAAAppControlled=0"
-	nvidia-settings -a "FSAA=0"
-	nvidia-settings -a "LogAniso=0"
-	nvidia-settings -a "OpenGLImageSettings=3"
-	
-	cd "/home/palmer/.wineprefix/left4dead/drive_c/Program Files/Left4Dead"
-	WINEPREFIX="/home/palmer/.wineprefix/left4dead/" WINEDEBUG=-all wine RUN_L4D.exe 
-	exit $?
-fi
-
 if [[ "$1" == "bfv" ]]
 then
 	nvidia-settings -a "LogAnisoAppControlled=0"
@@ -64,20 +50,6 @@ then
 	
 	cd "/home/palmer/.wineprefix/ut2004/drive_c/UT2004/AlienSwarm"
 	WINEPREFIX="/home/palmer/.wineprefix/ut2004/" WINEDEBUG=-all wine AlienSwarm.exe
-	exit $?
-fi
-
-if [[ "$1" == "steam" ]]
-then
-	nvidia-settings -a "LogAnisoAppControlled=0"
-	nvidia-settings -a "FSAAAppEnhanced=0"
-	nvidia-settings -a "FSAAAppControlled=0"
-	nvidia-settings -a "FSAA=0"
-	nvidia-settings -a "LogAniso=0"
-	nvidia-settings -a "OpenGLImageSettings=0"
-	
-	cd "/home/palmer/.wineprefix/steam/drive_c/Program Files/Steam"
-	WINEPREFIX="/home/palmer/.wineprefix/steam/" WINEDEBUG=-all wine Steam.exe
 	exit $?
 fi
 
