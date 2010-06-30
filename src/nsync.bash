@@ -1,9 +1,11 @@
 local="$(hostname)"
 binary="unison"
 
-if [[ "$local" == "desktop.palmer.dabbelt" ]]
+rm dead.letter 2> /dev/null
+
+if [[ "$local" == "desktop.palmer.dabbelt.com" ]]
 then
-	echo "desktop.palmer.dabbelt <==> dabbelt.zapto.org"
+	echo "desktop.palmer.dabbelt.com <==> server.dabbelt.com"
 	ionice -n 7 -c 2 $binary desktop
 	
 	temp=`mktemp`
@@ -11,9 +13,9 @@ then
 	mv $temp ~/.kde4/share/config/kopeterc
 fi
 
-if [[ "$local" == "laptop.palmer.dabbelt" ]]
+if [[ "$local" == "laptop.palmer.dabbelt.com" ]]
 then
-	echo "laptop.palmer.dabbelt <==> dabbelt.zapto.org"
+	echo "laptop.palmer.dabbelt.com <==> server.dabbelt.com"
 	ionice -n 7 -c 2 $binary laptop
 	
 	temp=`mktemp`
@@ -21,15 +23,10 @@ then
 	mv $temp ~/.kde4/share/config/kopeterc
 fi
 
-if [[ "$local" == "vbox.nuvixa.palmer.dabbelt" ]]
-then
-	echo "vbox.nuvixa.palmer.dabbelt <==> dabbelt.zapto.org"
-	ionice -n 7 -c 2 $binary vbox_nuvixa
-fi
+rm dead.letter 2> /dev/null
+rm ~/.unison/*.log 2> /dev/null
 
-if [[ "$HOME" == "/home/engr/dabbelt1" ]]
-then
-	echo "EWS Machine <==> dabbelt.zapto.org"
-	$binary ews
-fi
-
+pwd=`pwd`
+cd ~/prog/
+make
+cd "$pwd"
