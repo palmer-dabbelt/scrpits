@@ -1,11 +1,12 @@
 local="$(hostname)"
 binary="unison"
 
-rm dead.letter 2> /dev/null
-
 if [[ "$local" == "desktop.palmer.dabbelt.com" ]]
 then
 	echo "desktop.palmer.dabbelt.com <==> server.dabbelt.com"
+	
+	ssh server.dabbelt.com nsync
+	
 	ionice -n 7 -c 2 $binary desktop
 	
 	temp=`mktemp`
@@ -16,6 +17,9 @@ fi
 if [[ "$local" == "laptop.palmer.dabbelt.com" ]]
 then
 	echo "laptop.palmer.dabbelt.com <==> server.dabbelt.com"
+
+	ssh server.dabbelt.com nsync
+
 	ionice -n 7 -c 2 $binary laptop
 	
 	temp=`mktemp`
