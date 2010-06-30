@@ -6,8 +6,8 @@ then
 	echo "desktop.palmer.dabbelt.com <==> server.dabbelt.com"
 	
 	ssh server.dabbelt.com nsync
-	
 	ionice -n 7 -c 2 $binary desktop
+	ssh server.dabbelt.com nsync
 	
 	temp=`mktemp`
 	cat ~/.kde4/share/config/kopeterc | sed s/Resource=laptop/Resource=desktop/ > $temp
@@ -19,8 +19,8 @@ then
 	echo "laptop.palmer.dabbelt.com <==> server.dabbelt.com"
 
 	ssh server.dabbelt.com nsync
-
 	ionice -n 7 -c 2 $binary laptop
+	ssh server.dabbelt.com nsync
 	
 	temp=`mktemp`
 	cat ~/.kde4/share/config/kopeterc | sed s/Resource=desktop/Resource=laptop/ > $temp
@@ -32,5 +32,5 @@ rm ~/.unison/*.log 2> /dev/null
 
 pwd=`pwd`
 cd ~/prog/
-make
+make 2> /dev/null > /dev/null
 cd "$pwd"
