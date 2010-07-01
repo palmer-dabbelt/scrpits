@@ -227,6 +227,45 @@ class LatexPDF
 	end
 end
 
+class GnuPGPDF
+	def GnuPGPDF.is_item(path)
+		return path.ends_with(".pdf.gpg")
+	end
+	
+	def GnuPGPDF.deps(path)
+		out = Array.new
+		
+		out.push("#{path.chomp(".pdf.gpg")}.pdf")
+		
+		return out
+	end
+	
+	def GnuPGPDF.cmds(path)
+		out = Array.new
+		
+		out.push("rm #{path.chomp(".pdf.gpg")}.pdf.gpg 2> /dev/null || true")
+		out.push("gpg --sign #{path.chomp(".pdf.gpg")}.pdf")
+		
+		return out
+	end
+	
+	def GnuPGPDF.created(path)
+		out = Array.new
+		
+		out.push("#{path.chomp(".pdf.gpg")}.pdf.gpg")
+		
+		return out
+	end
+	
+	def GnuPGPDF.more(path)
+		out = Array.new
+		
+		out.push("#{path.chomp(".pdf.gpg")}.pdf")
+		
+		return out
+	end
+end
+
 class Stex
 	def Stex.is_item(path)
 		return File.exists?("#{path.chomp(".stex")}.tex")
@@ -579,6 +618,7 @@ end
 @@processors.push(JPEGImagePDF)
 @@processors.push(PDFCropPDF)
 @@processors.push(POVRayPDF)
+@@processors.push(GnuPGPDF)
 
 # All the .tex files in our item
 to_process = Array.new
@@ -595,6 +635,8 @@ else
 	ARGV.each{|path|
 		if (path.ends_with(".tex"))
 			to_process.push("#{path.chomp(".tex")}.pdf")
+		else
+			to_process.push("#{path}")
 		end
 	}
 end
