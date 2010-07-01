@@ -1,3 +1,4 @@
 Makefile
 bin
 *~
+Configfile.local
