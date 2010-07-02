@@ -397,9 +397,14 @@ class GNUPlotPDF
 	end
 	
 	def GNUPlotPDF.cmds(path)
+		dir = "."
+		if (path.include?("/"))
+			dir = path.split("/")[0..-2].join("/")
+		end
+		
 		out = Array.new
 		
-		out.push("gnuplot #{path.chomp(".pdf")}.gnuplot > #{path.chomp(".pdf")}.ps")
+		out.push("cd #{dir} ; gnuplot #{path.chomp(".pdf").chomp_front("#{dir}/")}.gnuplot > #{path.chomp(".pdf").chomp_front("#{dir}/")}.ps")
 		out.push("ps2pdf #{path.chomp(".pdf")}.ps #{path.chomp(".pdf")}.pdf")
 		out.push("rm  #{path.chomp(".pdf")}.ps")
 		out.push("pdfcrop #{path.chomp(".pdf")}.pdf #{path.chomp(".pdf")}.pdf_crop")
@@ -633,7 +638,7 @@ class POVRayPDF
 	def POVRayPDF.cmds(path)
 		out = Array.new
 		
-		out.push("povray #{path.chomp(".pdf")}.pov -geometry 4000x3000 -D")
+		out.push("povray +I #{path.chomp(".pdf")}.pov -geometry 4000x3000 -D +O#{path.chomp(".pdf")}.png")
 		out.push("convert #{path.chomp(".pdf")}.png #{path.chomp(".pdf")}.pdf")
 		out.push("rm #{path.chomp(".pdf")}.png")
 		
