@@ -56,7 +56,7 @@ then
 	for x in $(/bin/ls ~/.programs/ | grep -v bin)
 	do
 		cd ~/.programs/$x
-		make
+		make 2> /dev/null > /dev/null
 	done
 	cd $pwd
 fi

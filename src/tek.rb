@@ -1,5 +1,21 @@
 require 'date'
 
+class Dir
+	def Dir.foreach_r(path, &f)
+		Dir.foreach(path){|spath|
+			if (spath[0].chr == ".")
+				# nothing
+			elsif (File.directory?("#{path}/#{spath}"))
+				Dir.foreach_r("#{path}/#{spath}"){|sspath|
+					f.call("#{sspath}")
+				}
+			else
+				f.call("#{path}/#{spath}")
+			end
+		}
+	end
+end
+
 class String
 	def ends_with(other)
 		if (self.size < other.size)
@@ -111,6 +127,11 @@ class LatexPDF
 	end
 	
 	def LatexPDF.deps(path)
+		dir = "."
+		if (path.include?("/"))
+			dir = path.split("/")[0..-2].join("/")
+		end
+	
 		out = Array.new
 		
 		out.push("#{path.chomp(".pdf")}.tex")
@@ -118,15 +139,15 @@ class LatexPDF
 		file = File.new("#{path.chomp(".pdf")}.tex", "r")
 		while (read = file.gets)
 			if (read.strip.starts_with("\\bibliography{") || read.strip.starts_with("\\makebibliography{"))
-				out.push("#{read.split("{")[1].strip.chomp("}").strip}.bib")
+				out.push("#{dir}/#{read.split("{")[1].strip.split("}")[0].strip}.bib")
 			end
 			
 			if (read.strip.starts_with("\\input{"))
-				out.push(read.split("{")[1].strip.chomp("}").strip)
+				out.push("#{dir}/#{read.split("{")[1].strip.split("}")[0].strip}")
 			end
 			
 			if (read.strip.starts_with("\\includegraphics{") || read.strip.starts_with("\\includegraphics["))
-				out.push(read.split("{")[1].strip.chomp("}").strip)
+				out.push("#{dir}/#{read.split("{")[1].strip.split("}")[0].strip}")
 			end
 		end
 		
@@ -151,7 +172,12 @@ class LatexPDF
 	end
 	
 	def LatexPDF.cmds(path)
-		latexcmd = "pdflatex -interaction=batchmode #{path.chomp(".pdf")}.tex > /dev/null || pdflatex #{path.chomp(".pdf")}.tex"
+		dir = "."
+		if (path.include?("/"))
+			dir = path.split("/")[0..-2].join("/")
+		end
+		
+		latexcmd = "cd #{dir} ; pdflatex -interaction=batchmode #{path.chomp(".pdf").chomp_front("#{dir}/")}.tex > /dev/null || pdflatex #{path.chomp(".pdf").chomp_front("#{dir}/")}.tex"
 		
 		out = Array.new
 		
@@ -186,6 +212,7 @@ class LatexPDF
 		out.push("rm #{path.chomp(".pdf")}.blg 2> /dev/null || true")
 		out.push("rm #{path.chomp(".pdf")}.nav 2> /dev/null || true")
 		out.push("rm #{path.chomp(".pdf")}.snm 2> /dev/null || true")
+		out.push("rm texput.log 2> /dev/null || true")
 		
 		return out
 	end
@@ -207,17 +234,26 @@ class LatexPDF
 	end
 	
 	def LatexPDF.more(path)
+		dir = ""
+		if (path.include?("/"))
+			dir = path.split("/")[0..-2].join("/")
+		end
+		
 		out = Array.new
 		
 		file = File.new("#{path.chomp(".pdf")}.tex", "r")
 		
 		while (read = file.gets)
+			if (read.strip.starts_with("\\bibliography{") || read.strip.starts_with("\\makebibliography{"))
+				out.push("#{dir}/#{read.split("{")[1].strip.split("}")[0].strip}.bib")
+			end
+			
 			if (read.strip.starts_with("\\input{"))
-				out.push(read.split("{")[1].strip.chomp("}").strip)
+				out.push("#{dir}/#{read.split("{")[1].strip.split("}")[0].strip}")
 			end
 			
 			if (read.strip.starts_with("\\includegraphics{") || read.strip.starts_with("\\includegraphics["))
-				out.push(read.split("{")[1].strip.chomp("}").strip)
+				out.push("#{dir}/#{read.split("{")[1].strip.split("}")[0].strip}")
 			end
 		end
 		
@@ -299,15 +335,20 @@ class Stex
 	def Stex.more(path)
 		out = Array.new
 		
+		dir = "."
+		if (path.include?("/"))
+			dir = path.split("/")[0..-2].join("/")
+		end
+		
 		file = File.new("#{path.chomp(".stex")}.tex", "r")
 		
 		while (read = file.gets)
 			if (read.strip.starts_with("\\input{"))
-				out.push(read.split("{")[1].strip.chomp("}").strip)
+				out.push("#{dir}/#{read.split("{")[1].strip.chomp("}").strip}")
 			end
 			
 			if (read.strip.starts_with("\\includegraphics{") || read.strip.starts_with("\\includegraphics["))
-				out.push(read.split("{")[1].strip.chomp("}").strip)
+				out.push("#{dir}/#{read.split("{")[1].strip.chomp("}").strip}")
 			end
 		end
 		
@@ -322,6 +363,11 @@ class GNUPlotPDF
 	
 	def GNUPlotPDF.deps(path)
 		out = Array.new
+		
+		dir = "."
+		if (path.include?("/"))
+			dir = path.split("/")[0..-2].join("/")
+		end
 		
 		out.push("#{path.chomp(".pdf")}.gnuplot")
 		
@@ -338,6 +384,10 @@ class GNUPlotPDF
 				datfile.chomp!("\"")
 				datfile.strip!
 				
+				if (dir != ".")
+					datfile = "#{dir}/#{datfile}"
+				end
+				
 				out.push(datfile)
 			end
 		end
@@ -350,7 +400,7 @@ class GNUPlotPDF
 		out = Array.new
 		
 		out.push("gnuplot #{path.chomp(".pdf")}.gnuplot > #{path.chomp(".pdf")}.ps")
-		out.push("ps2pdf #{path.chomp(".pdf")}.ps")
+		out.push("ps2pdf #{path.chomp(".pdf")}.ps #{path.chomp(".pdf")}.pdf")
 		out.push("rm  #{path.chomp(".pdf")}.ps")
 		out.push("pdfcrop #{path.chomp(".pdf")}.pdf #{path.chomp(".pdf")}.pdf_crop")
 		out.push("mv #{path.chomp(".pdf")}.pdf_crop #{path.chomp(".pdf")}.pdf")
@@ -626,9 +676,9 @@ processed = Array.new
 @@make_file = Makefile.new
 
 if (ARGV.size == 0)
-	Dir.foreach("."){|path|
+	Dir.foreach_r("."){|path|
 		if (path.ends_with(".tex"))
-			to_process.push("#{path.chomp(".tex")}.pdf")
+			to_process.push("#{path.chomp(".tex")}.pdf".chomp_front("./"))
 		end
 	}
 else
