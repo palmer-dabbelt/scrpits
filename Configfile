@@ -40,8 +40,14 @@ SOURCES += nsync.bash
 TARGETS += ods2prn
 SOURCES += ods2prn.rb
 
+TARGETS += petchmail
+SOURCES += petchmail.rb
+
 TARGETS += pgame
 SOURCES += pgame.bash
+
+TARGETS += pmailbackup
+SOURCES += pmailbackup.rb
 
 TARGETS += prsdl
 SOURCES += prsdl.rb
