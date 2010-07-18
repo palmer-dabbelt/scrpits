@@ -21,4 +21,4 @@ nice -n 19 mencoder "$input" -o $x264file -nosound -ovc x264 -x264encopts crf=20
 # Merges the video
 nice -n 19 mkvmerge $oggfile $x264file -o "$output"
 rm -rf $tmpdir
-chmod o+r "$output"
+#chmod o+r "$output"

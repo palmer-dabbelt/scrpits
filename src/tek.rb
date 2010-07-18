@@ -234,7 +234,7 @@ class LatexPDF
 	end
 	
 	def LatexPDF.more(path)
-		dir = ""
+		dir = "."
 		if (path.include?("/"))
 			dir = path.split("/")[0..-2].join("/")
 		end

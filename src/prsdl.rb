@@ -43,6 +43,7 @@ while (form_url = file.gets)
 		done = false
 		while (!done)
 			form_page = agent.get(form_url)
+			puts "Got Form Page"
 			
 			action = nil
 			form_page.body.split("\n").each{|line|
@@ -50,12 +51,14 @@ while (form_url = file.gets)
 					action = line.split("action=\"")[1].split("\"")[0]
 				end
 			}
+			puts "Got Action"
 			
 			if (action != nil)
 				# Clicks the button
 				free_form = form_page.form_with(:method => 'POST')
 				free_form["dl.start"] = "Free"
 				wait_page = agent.submit(free_form)
+				puts "Got wait page"
 				
 				# Waits on the wait page
 				action = nil
@@ -64,15 +67,22 @@ while (form_url = file.gets)
 						action = line.split("action=\"")[1].split("\"")[0]
 					end
 				}
+				puts "Got Action"
 				
 				# Tests if we found a download action
 				if (action != nil)
+					puts "Sleeping"
 					sleep(SLEEP_TIME)
+					puts "Done sleeping"
 					
 					data = agent.post(action, {"mirror" => action})
+					puts "Got Data"
 					out = File.new(out, "w");
+					puts "File"
 					out.write(data.body)
+					puts "Write"
 					out.close
+					puts "closed"
 					
 					done = true
 				end

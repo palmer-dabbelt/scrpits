@@ -1,4 +1,4 @@
-VCARD_DIRS = ["/home/palmer/.pim/contact/family/", "/home/palmer/.pim/contact/uiuc/",  "/home/palmer/.pim/contact/whs/"]
+VCARD_DIRS = ["/home/palmer/.local/share/contacts/family/", "/home/palmer/.local/share/contacts/university_of_illinois/",  "/home/palmer/.local/share/contacts/weston_high_school/"]
 
 class String
 	def starts_with(other)
