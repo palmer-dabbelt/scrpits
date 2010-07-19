@@ -214,6 +214,7 @@ class LatexPDF
 		out.push("rm #{path.chomp(".pdf")}.blg 2> /dev/null || true")
 		out.push("rm #{path.chomp(".pdf")}.nav 2> /dev/null || true")
 		out.push("rm #{path.chomp(".pdf")}.snm 2> /dev/null || true")
+		out.push("rm #{path.chomp(".pdf")}.lof 2> /dev/null || true")
 		out.push("rm texput.log 2> /dev/null || true")
 		
 		return out
@@ -231,6 +232,7 @@ class LatexPDF
 		out.push("#{path.chomp(".pdf")}.blg")
 		out.push("#{path.chomp(".pdf")}.nav")
 		out.push("#{path.chomp(".pdf")}.snm")
+		out.push("#{path.chomp(".pdf")}.lof")
 		
 		return out
 	end
@@ -527,9 +529,9 @@ class SVGImagePDF
 	def SVGImagePDF.cmds(path)
 		out = Array.new
 		
-		out.push("inkscape #{path.chomp(".pdf")}.svg --export-eps=#{path.chomp(".pdf")}.eps")
-		out.push("convert #{path.chomp(".pdf")}.eps #{path.chomp(".pdf")}.pdf")
-		out.push("rm #{path.chomp(".pdf")}.eps")
+		out.push("inkscape #{path.chomp(".pdf")}.svg --export-pdf=#{path.chomp(".pdf")}.pdf")
+		out.push("pdfcrop #{path.chomp(".pdf")}.pdf")
+		out.push("mv #{path.chomp(".pdf")}-crop.pdf #{path.chomp(".pdf")}.pdf")
 		
 		return out
 	end
