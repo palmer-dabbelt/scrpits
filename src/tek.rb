@@ -215,6 +215,7 @@ class LatexPDF
 		out.push("rm #{path.chomp(".pdf")}.nav 2> /dev/null || true")
 		out.push("rm #{path.chomp(".pdf")}.snm 2> /dev/null || true")
 		out.push("rm #{path.chomp(".pdf")}.lof 2> /dev/null || true")
+		out.push("rm #{path.chomp(".pdf")}.lot 2> /dev/null || true")
 		out.push("rm texput.log 2> /dev/null || true")
 		
 		return out
@@ -233,6 +234,7 @@ class LatexPDF
 		out.push("#{path.chomp(".pdf")}.nav")
 		out.push("#{path.chomp(".pdf")}.snm")
 		out.push("#{path.chomp(".pdf")}.lof")
+		out.push("#{path.chomp(".pdf")}.lot")
 		
 		return out
 	end
