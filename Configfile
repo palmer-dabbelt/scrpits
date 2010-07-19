@@ -40,6 +40,9 @@ SOURCES += nsync.bash
 TARGETS += ods2prn
 SOURCES += ods2prn.rb
 
+TARGETS += ods2stex
+SOURCES += ods2stex.rb
+
 TARGETS += petchmail
 SOURCES += petchmail.rb
 
