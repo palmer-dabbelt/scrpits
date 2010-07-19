@@ -302,12 +302,12 @@ class GnuPGPDF
 	end
 end
 
-class Stex
-	def Stex.is_item(path)
+class TexStex
+	def TexStex.is_item(path)
 		return File.exists?("#{path.chomp(".stex")}.tex")
 	end
 	
-	def Stex.deps(path)
+	def TexStex.deps(path)
 		out = Array.new
 		
 		out.push("#{path.chomp(".stex")}.tex")
@@ -316,7 +316,7 @@ class Stex
 		return out
 	end
 	
-	def Stex.cmds(path)
+	def TexStex.cmds(path)
 		out = Array.new
 		
 		out.push("texstrip #{path.chomp(".stex")}.tex #{path}")
@@ -324,7 +324,7 @@ class Stex
 		return out
 	end
 	
-	def Stex.created(path)
+	def TexStex.created(path)
 		out = Array.new
 		
 		out.push("#{path.chomp(".stex")}.stex")
@@ -332,7 +332,7 @@ class Stex
 		return out
 	end
 	
-	def Stex.more(path)
+	def TexStex.more(path)
 		out = Array.new
 		
 		dir = "."
@@ -351,6 +351,42 @@ class Stex
 				out.push("#{dir}/#{read.split("{")[1].strip.chomp("}").strip}")
 			end
 		end
+		
+		return out
+	end
+end
+
+class ODSStex
+	def ODSStex.is_item(path)
+		return File.exists?("#{path.chomp(".stex")}.ods")
+	end
+	
+	def ODSStex.deps(path)
+		out = Array.new
+		
+		out.push("#{path.chomp(".stex")}.ods")
+		
+		return out
+	end
+	
+	def ODSStex.cmds(path)
+		out = Array.new
+		
+		out.push("ods2stex #{path.chomp(".stex")}.ods #{path}")
+		
+		return out
+	end
+	
+	def ODSStex.created(path)
+		out = Array.new
+		
+		out.push("#{path.chomp(".stex")}.stex")
+		
+		return out
+	end
+	
+	def ODSStex.more(path)
+		out = Array.new
 		
 		return out
 	end
@@ -665,7 +701,8 @@ end
 # How we can process each type of file
 @@processors = Array.new
 @@processors.push(LatexPDF)
-@@processors.push(Stex)
+@@processors.push(TexStex)
+@@processors.push(ODSStex)
 @@processors.push(GNUPlotPDF)
 @@processors.push(GNUPlotDAT)
 @@processors.push(SVGImagePDF)
