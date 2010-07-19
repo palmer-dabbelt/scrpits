@@ -154,9 +154,11 @@ class LatexPDF
 		moredeps = Array.new
 		out.each{|dep|
 			if (dep.ends_with(".stex"))
-				LatexPDF.deps("#{dep.chomp(".stex")}.pdf").each{|newdep|
-					moredeps.push(newdep)
-				}
+				if (File.exists?("#{dep.chomp(".stex")}.tex}"))
+					LatexPDF.deps("#{dep.chomp(".stex")}.pdf").each{|newdep|
+						moredeps.push(newdep)
+					}
+				end
 				
 				moredeps.delete("#{dep.chomp(".stex")}.tex")
 			end
