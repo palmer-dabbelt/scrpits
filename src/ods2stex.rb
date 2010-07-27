@@ -51,17 +51,25 @@ output.puts("\\begin{tabular}{#{1.upto(number_of_rows).to_a.map{|i| "c"}.join(""
 		if (val.class == Float)
 			exponent = 0
 			
-			while  (abs(val) < 1)
-				val = val * 10
-				exponent = exponent - 1
+			if (val != 0.0)
+				while  (abs(val) < 1)
+					val = val * 10
+					exponent = exponent - 1
+				end
+				
+				while (abs(val) >= 10)
+					val = val / 10
+					exponent = exponent + 1
+				end
 			end
 			
-			while (abs(val) >= 10)
-				val = val / 10
-				exponent = exponent + 1
+			val = "$#{val.to_s[0..PRECISION-1]}"
+			
+			if (exponent != 0)
+				val = "#{val} \\times 10^{#{exponent}}"
 			end
 			
-			val = "$#{val.to_s[0..PRECISION-1]} \\times 10^{#{exponent}}$"
+			val = "#{val}$"
 		end
 		
 		if (val == nil)
