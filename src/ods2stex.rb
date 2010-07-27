@@ -43,9 +43,7 @@ output.puts("\\begin{tabular}{#{1.upto(number_of_rows).to_a.map{|i| "c"}.join(""
 		end
 		
 		TO_FILTER.each_pair{|from, to|
-			while (val.include?(from))
-				val.gsub!(from, to)
-			end
+			val = val.split(from).join(to)
 		}
 		
 		output.write(val)
