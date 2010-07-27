@@ -1,6 +1,8 @@
 # Converts an Openoffice Spreadsheet to PRN format
 #	Palmer Dabbelt <palmem@comcast.net>
 
+TO_FILTER = {"%" => "\\%"}
+
 if (ARGV[0] == nil)
 	puts "ods2prn <input file> [output file]"
 	puts "\tConverts an Openoffice Spreadsheet into a text file"
@@ -39,6 +41,12 @@ output.puts("\\begin{tabular}{#{1.upto(number_of_rows).to_a.map{|i| "c"}.join(""
 		if (val == nil)
 			val = ""
 		end
+		
+		TO_FILTER.each_pair{|from, to|
+			while (val.include?(from))
+				val.gsub!(from, to)
+			end
+		}
 		
 		output.write(val)
 		if (col_num != oo.last_column)
