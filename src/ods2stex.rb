@@ -3,6 +3,15 @@
 
 TO_FILTER = {"%" => "\\%"}
 TO_MATHMODE = ["\\delta", "\\rho", "\\frac{"]
+PRECISION = 5
+
+def abs(num)
+	if (num < 0)
+		return -1 * num
+	else
+		return num
+	end
+end
 
 if (ARGV[0] == nil)
 	puts "ods2prn <input file> [output file]"
@@ -37,7 +46,23 @@ output.puts("\\begin{tabular}{#{1.upto(number_of_rows).to_a.map{|i| "c"}.join(""
 
 (oo.first_row).upto(oo.last_row){|row_num|
 	(oo.first_column).upto(oo.last_column){|col_num|
-		val = oo.cell(row_num, col_num).to_s
+		val = oo.cell(row_num, col_num)
+		
+		if (val.class == Float)
+			exponent = 0
+			
+			while  (abs(val) < 1)
+				val = val * 10
+				exponent = exponent - 1
+			end
+			
+			while (abs(val) >= 10)
+				val = val / 10
+				exponent = exponent + 1
+			end
+			
+			val = "$#{val.to_s[0..PRECISION-1]} \\times 10^{#{exponent}}$"
+		end
 		
 		if (val == nil)
 			val = ""
@@ -50,7 +75,9 @@ output.puts("\\begin{tabular}{#{1.upto(number_of_rows).to_a.map{|i| "c"}.join(""
 			end
 		}
 		if (mathy == true)
-			val = "$#{val}$"
+			if (val[0].chr != "$")
+				val = "$#{val}$"
+			end
 		end
 		
 		TO_FILTER.each_pair{|from, to|
