@@ -250,9 +250,9 @@ class LatexPDF
 		file = File.new("#{path.chomp(".pdf")}.tex", "r")
 		
 		while (read = file.gets)
-			if (read.strip.starts_with("\\bibliography{") || read.strip.starts_with("\\makebibliography{"))
-				out.push("#{dir}/#{read.split("{")[1].strip.split("}")[0].strip}.bib")
-			end
+# 			if (read.strip.starts_with("\\bibliography{") || read.strip.starts_with("\\makebibliography{"))
+# 				out.push("#{dir}/#{read.split("{")[1].strip.split("}")[0].strip}.bib")
+# 			end
 			
 			if (read.strip.starts_with("\\input{"))
 				out.push("#{dir}/#{read.split("{")[1].strip.split("}")[0].strip}")
