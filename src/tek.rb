@@ -703,6 +703,42 @@ class POVRayPDF
 	end
 end
 
+class PostScriptPDF
+	def PostScriptPDF.is_item(path)
+		return File.exists?("#{path.chomp(".pdf")}.ps")
+	end
+
+	def PostScriptPDF.deps(path)
+		out = SVGImagePDF.more(path)
+		
+		out.push("#{path.chomp(".pdf")}.ps")
+		
+		return out
+	end
+
+	def PostScriptPDF.cmds(path)
+		out = Array.new
+		
+		out.push("ps2pdfwr #{path.chomp(".pdf")}.ps #{path.chomp(".pdf")}.pdf")
+		
+		return out
+	end
+
+	def PostScriptPDF.created(path)
+		out = Array.new
+		
+		out.push("#{path.chomp(".pdf")}.pdf")
+		
+		return out
+	end
+
+	def PostScriptPDF.more(path)
+		out = Array.new
+		
+		return out
+	end
+end
+
 
 # How we can process each type of file
 @@processors = Array.new
@@ -717,6 +753,7 @@ end
 @@processors.push(PDFCropPDF)
 @@processors.push(POVRayPDF)
 @@processors.push(GnuPGPDF)
+@@processors.push(PostScriptPDF)
 
 # All the .tex files in our item
 to_process = Array.new
