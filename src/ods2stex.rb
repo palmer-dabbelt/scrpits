@@ -2,6 +2,7 @@
 #	Palmer Dabbelt <palmem@comcast.net>
 
 TO_FILTER = {"%" => "\\%"}
+TO_MATHMODE = ["\\delta", "\\rho", "\\frac{"]
 
 if (ARGV[0] == nil)
 	puts "ods2prn <input file> [output file]"
@@ -40,6 +41,16 @@ output.puts("\\begin{tabular}{#{1.upto(number_of_rows).to_a.map{|i| "c"}.join(""
 		
 		if (val == nil)
 			val = ""
+		end
+		
+		mathy = false
+		TO_MATHMODE.each{|mathmode|
+			if (val.include?(mathmode))
+				mathy = true
+			end
+		}
+		if (mathy == true)
+			val = "$#{val}$"
 		end
 		
 		TO_FILTER.each_pair{|from, to|
