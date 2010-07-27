@@ -649,7 +649,8 @@ end
 
 class PDFCropPDF
 	def PDFCropPDF.is_item(path)
-		return File.exists?("#{path.chomp(".pdf")}.uncrop.pdf")
+		return File.exists?("#{path.chomp(".pdf")}.uncrop.pdf") \
+			|| File.exists?("#{path.chomp(".pdf")}.uncrop.ps");
 	end
 
 	def PDFCropPDF.deps(path)
@@ -680,6 +681,10 @@ class PDFCropPDF
 
 	def PDFCropPDF.more(path)
 		out = Array.new
+		
+		if (File.exists?("#{path.chomp(".pdf")}.uncrop.ps"))
+			out.push("#{path.chomp(".pdf")}.uncrop.pdf")
+		end
 		
 		return out
 	end
