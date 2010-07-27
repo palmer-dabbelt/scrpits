@@ -41,15 +41,12 @@ fi
 
 if [[ "$1" == "aswarm" ]]
 then
-	nvidia-settings -a "LogAnisoAppControlled=0"
-	nvidia-settings -a "FSAAAppEnhanced=0"
-	nvidia-settings -a "FSAAAppControlled=0"
-	nvidia-settings -a "FSAA=0"
-	nvidia-settings -a "LogAniso=0"
-	nvidia-settings -a "OpenGLImageSettings=0"
+	nvidia-settings -a "LogAnisoAppControlled=1"
+	nvidia-settings -a "FSAAAppEnhanced=1"
+	nvidia-settings -a "OpenGLImageSettings=3"
 	
-	cd "/home/palmer/.wineprefix/ut2004/drive_c/UT2004/AlienSwarm"
-	WINEPREFIX="/home/palmer/.wineprefix/ut2004/" WINEDEBUG=-all wine AlienSwarm.exe
+	cd "/home/palmer/.wineprefix/steam_aswarm/drive_c/Program Files/Steam/"
+	WINEPREFIX="/home/palmer/.wineprefix/steam_aswarm/" WINEDEBUG=-all wine Steam.exe
 	exit $?
 fi
 
