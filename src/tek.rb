@@ -319,6 +319,25 @@ class TexStex
 		out.push("#{path.chomp(".stex")}.tex")
 # 		out.push("#{path.chomp(".stex")}.pdf")
 		
+		dir = "."
+		if (path.include?("/"))
+			dir = path.split("/")[0..-2].join("/")
+		end
+		
+		file = File.new("#{path.chomp(".stex")}.tex", "r")
+		
+		while (read = file.gets)
+			if (read.strip.starts_with("\\input{"))
+				out.push("#{dir}/#{read.split("{")[1].strip.chomp("}").strip}")
+			end
+			
+			if (read.strip.starts_with("\\includegraphics{") || read.strip.starts_with("\\includegraphics["))
+				out.push("#{dir}/#{read.split("{")[1].strip.chomp("}").strip}")
+			end
+		end
+		
+		file.close
+		
 		return out
 	end
 	
@@ -357,6 +376,8 @@ class TexStex
 				out.push("#{dir}/#{read.split("{")[1].strip.chomp("}").strip}")
 			end
 		end
+		
+		file.close
 		
 		return out
 	end
