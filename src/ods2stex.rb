@@ -83,7 +83,7 @@ output.puts("\\begin{tabular}{#{1.upto(number_of_rows).to_a.map{|i| "l"}.join(""
 			end
 		}
 		if (mathy == true)
-			if (val[0].chr != "$")
+			if !(val.include?("$"))
 				val = "$#{val}$"
 			end
 		end
