@@ -2,7 +2,7 @@
 #	Palmer Dabbelt <palmem@comcast.net>
 
 TO_FILTER = {"%" => "\\%"}
-TO_MATHMODE = ["\\delta", "\\rho", "\\frac{"]
+TO_MATHMODE = ["\\delta", "\\rho", "\\frac{", "\\Delta"]
 PRECISION = 5
 
 def abs(num)
