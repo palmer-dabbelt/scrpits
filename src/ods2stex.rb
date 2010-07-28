@@ -78,8 +78,15 @@ output.puts("\\begin{tabular}{#{1.upto(number_of_rows).to_a.map{|i| "l"}.join(""
 		
 		mathy = false
 		TO_MATHMODE.each{|mathmode|
-			val = val.split(mathmode).join("$#{mathmode}$")
+			if (val.include?(mathmode))
+				mathy = true
+			end
 		}
+		if (mathy == true)
+			if (val[0].chr != "$")
+				val = "$#{val}$"
+			end
+		end
 		
 		TO_FILTER.each_pair{|from, to|
 			val = val.split(from).join(to)
