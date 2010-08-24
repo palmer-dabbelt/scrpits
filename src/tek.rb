@@ -195,7 +195,7 @@ class LatexPDF
 		out.push(latexcmd)
 		
 		if (bibtex == true)
-			out.push("bibtex #{path.chomp(".pdf")}")
+			out.push("bibtex -terse #{path.chomp(".pdf")}")
 			out.push(latexcmd)
 		end
 		
