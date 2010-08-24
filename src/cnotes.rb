@@ -96,6 +96,11 @@ comp.puts("
 {
 	\\subsection{#1}
 }
+
+\\renewcommand{\\subsubtopic}[1]
+{
+	\\subsubsection{#1}
+}
 ")
 comp.puts("")
 
