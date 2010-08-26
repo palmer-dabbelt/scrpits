@@ -383,6 +383,44 @@ class TexStex
 	end
 end
 
+class SourceHighlightStex
+	def SourceHighlightStex.is_item(path)
+		return File.exists?("#{path.chomp(".stex")}") && (["c"].include?(path.chomp(".stex").split(".")[-1]))
+	end
+	
+	def SourceHighlightStex.deps(path)
+		out = Array.new
+		
+		out.push("#{path.chomp(".stex")}")
+		
+		return out
+	end
+	
+	def SourceHighlightStex.cmds(path)
+		out = Array.new
+		
+		out.push("source-highlight #{path.chomp(".stex")} -f latexcolor")
+		out.push("mv #{path.chomp(".stex")}.tex #{path}")
+		
+		return out
+	end
+	
+	def SourceHighlightStex.created(path)
+		out = Array.new
+		
+		out.push("#{path.chomp(".stex")}.stex")
+		out.push("#{path.chomp(".stex")}.stex.aux")
+		
+		return out
+	end
+	
+	def SourceHighlightStex.more(path)
+		out = Array.new
+		
+		return out
+	end
+end
+
 class ODSStex
 	def ODSStex.is_item(path)
 		return File.exists?("#{path.chomp(".stex")}.ods")
@@ -530,6 +568,44 @@ class GNUPlotDAT
 	end
 	
 	def GNUPlotDAT.more(path)
+		out = Array.new
+		
+		return out
+	end
+end
+
+class GNUPlotStex
+	def GNUPlotStex.is_item(path)
+		return File.exists?("#{path.chomp(".stex")}.gnuplot")
+	end
+	
+	def GNUPlotStex.deps(path)
+		out = Array.new
+		
+		out.push("#{path.chomp(".stex")}.gnuplot")
+		
+		return out
+	end
+	
+	def GNUPlotStex.cmds(path)
+		out = Array.new
+		
+		out.push("echo \"\\begin{verbatim}\" > #{path.chomp(".stex")}.stex")
+		out.push("cat #{path.chomp(".stex")}.gnuplot >> #{path.chomp(".stex")}.stex")
+		out.push("echo \"\\end{verbatim}\" >> #{path.chomp(".stex")}.stex")
+		
+		return out
+	end
+	
+	def GNUPlotStex.created(path)
+		out = Array.new
+		
+		out.push("#{path.chomp(".stex")}.stex")
+		
+		return out
+	end
+	
+	def GNUPlotStex.more(path)
 		out = Array.new
 		
 		return out
@@ -773,6 +849,7 @@ end
 @@processors.push(ODSStex)
 @@processors.push(GNUPlotPDF)
 @@processors.push(GNUPlotDAT)
+@@processors.push(GNUPlotStex)
 @@processors.push(SVGImagePDF)
 @@processors.push(PNGImagePDF)
 @@processors.push(JPEGImagePDF)
@@ -780,6 +857,7 @@ end
 @@processors.push(POVRayPDF)
 @@processors.push(GnuPGPDF)
 @@processors.push(PostScriptPDF)
+@@processors.push(SourceHighlightStex)
 
 # All the .tex files in our item
 to_process = Array.new
