@@ -6,6 +6,8 @@ if [[ "$local" == "desktop.palmer.dabbelt.com" ]]
 then
 	echo "desktop.palmer.dabbelt.com <==> server.dabbelt.com"
 	
+	akonadictl stop 2> /dev/null
+	
 	ssh server.dabbelt.com nsync
 	ionice -n 7 -c 2 $binary desktop
 	ssh server.dabbelt.com nsync
@@ -20,7 +22,9 @@ fi
 if [[ "$local" == "laptop.palmer.dabbelt.com" ]]
 then
 	echo "laptop.palmer.dabbelt.com <==> server.dabbelt.com"
-
+	
+	akonadictl stop 2> /dev/null
+	
 	ssh server.dabbelt.com nsync
 	ionice -n 7 -c 2 $binary laptop
 	ssh server.dabbelt.com nsync
@@ -29,21 +33,6 @@ then
 	cat ~/.kde4/share/config/kopeterc | sed s/Resource=nuvixa/Resource=laptop/ > $temp
 	cp $temp ~/.kde4/share/config/kopeterc
 	cat ~/.kde4/share/config/kopeterc | sed s/Resource=desktop/Resource=laptop/ > $temp
-	mv $temp ~/.kde4/share/config/kopeterc
-fi
-
-if [[ "$local" == "nuvixa.palmer.dabbelt.com" ]]
-then
-	echo "nuvixa.palmer.dabbelt.com <==> server.dabbelt.com"
-
-	ssh server.dabbelt.com nsync
-	ionice -n 7 -c 2 $binary laptop
-	ssh server.dabbelt.com nsync
-
-	temp=`mktemp`
-	cat ~/.kde4/share/config/kopeterc | sed s/Resource=desktop/Resource=nuvixa/ > $temp
-	cp $temp ~/.kde4/share/config/kopeterc
-	cat ~/.kde4/share/config/kopeterc | sed s/Resource=laptop/Resource=nuvixa/ > $temp
 	mv $temp ~/.kde4/share/config/kopeterc
 fi
 
