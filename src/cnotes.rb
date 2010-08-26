@@ -1,3 +1,8 @@
+if (ARGV[0] != "dummy")
+	`cnotes dummy 2> /dev/null`
+	exit 0
+end
+
 class String
 	def ends_with(other)
 		if (self.size < other.size)
