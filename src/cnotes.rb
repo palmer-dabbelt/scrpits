@@ -112,6 +112,7 @@ comp.puts("")
 comp.puts("\\begin{document}")
 comp.puts("\\maketitle")
 comp.puts("\\makecontents")
+comp.puts("\\listoffigures\\listoftables\\clearpage")
 comp.puts("")
 
 # Skips the inimportant things
