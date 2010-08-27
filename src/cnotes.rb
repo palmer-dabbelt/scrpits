@@ -106,6 +106,16 @@ comp.puts("
 {
 	\\subsubsection{#1}
 }
+\\renewcommand{\\subsubsubtopic}[1]
+{
+	\\subsubsubsection{#1}
+}
+\\makeatletter
+\\renewcommand{\\paragraph}{\\@startsection{paragraph}{4}{0ex}%
+   {-3.25ex plus -1ex minus -0.2ex}%
+   {1.5ex plus 0.2ex}%
+   {\\normalfont\\normalsize\\bfseries}}
+\\makeatother
 ")
 comp.puts("")
 
