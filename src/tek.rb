@@ -202,7 +202,7 @@ class LatexPDF
 		out.push(latexcmd)
 		
 		if (File.exists?("#{path.chomp(".pdf")}.nb"))
-			out.push("pdfcrop #{path.chomp(".pdf")}.pdf #{path.chomp(".pdf")}.pdf_crop")
+			out.push("pdfcrop #{path.chomp(".pdf")}.pdf #{path.chomp(".pdf")}.pdf_crop > /dev/null")
 			out.push("mv #{path.chomp(".pdf")}.pdf_crop #{path.chomp(".pdf")}.pdf")
 		end
 		
@@ -399,7 +399,7 @@ class SourceHighlightStex
 	def SourceHighlightStex.cmds(path)
 		out = Array.new
 		
-		out.push("source-highlight #{path.chomp(".stex")} -f latexcolor")
+		out.push("source-highlight -n #{path.chomp(".stex")} -f latexcolor")
 		out.push("mv #{path.chomp(".stex")}.tex #{path}")
 		
 		return out
@@ -457,6 +457,42 @@ class ODSStex
 	end
 end
 
+class DatStex
+	def DatStex.is_item(path)
+		return File.exists?("#{path.chomp(".stex")}.dat")
+	end
+	
+	def DatStex.deps(path)
+		out = Array.new
+		
+		out.push("#{path.chomp(".stex")}.dat")
+		
+		return out
+	end
+	
+	def DatStex.cmds(path)
+		out = Array.new
+		
+		out.push("dat2stex #{path.chomp(".stex")}.dat #{path}")
+		
+		return out
+	end
+	
+	def DatStex.created(path)
+		out = Array.new
+		
+		out.push("#{path.chomp(".stex")}.stex")
+		
+		return out
+	end
+	
+	def DatStex.more(path)
+		out = Array.new
+		
+		return out
+	end
+end
+
 class GNUPlotPDF
 	def GNUPlotPDF.is_item(path)
 		return File.exists?("#{path.chomp(".pdf")}.gnuplot")
@@ -508,7 +544,7 @@ class GNUPlotPDF
 		out.push("cd #{dir} ; gnuplot #{path.chomp(".pdf").chomp_front("#{dir}/")}.gnuplot > #{path.chomp(".pdf").chomp_front("#{dir}/")}.ps")
 		out.push("ps2pdf #{path.chomp(".pdf")}.ps #{path.chomp(".pdf")}.pdf")
 		out.push("rm  #{path.chomp(".pdf")}.ps")
-		out.push("pdfcrop #{path.chomp(".pdf")}.pdf #{path.chomp(".pdf")}.pdf_crop")
+		out.push("pdfcrop #{path.chomp(".pdf")}.pdf #{path.chomp(".pdf")}.pdf_crop > /dev/null")
 		out.push("mv #{path.chomp(".pdf")}.pdf_crop #{path.chomp(".pdf")}.pdf")
 		
 		return out
@@ -590,9 +626,7 @@ class GNUPlotStex
 	def GNUPlotStex.cmds(path)
 		out = Array.new
 		
-		out.push("echo \"\\begin{verbatim}\" > #{path.chomp(".stex")}.stex")
-		out.push("cat #{path.chomp(".stex")}.gnuplot >> #{path.chomp(".stex")}.stex")
-		out.push("echo \"\\end{verbatim}\" >> #{path.chomp(".stex")}.stex")
+		out.push("gnuplot2stex #{path.chomp(".stex")}.gnuplot #{path.chomp(".stex")}.stex")
 		
 		return out
 	end
@@ -629,7 +663,7 @@ class SVGImagePDF
 		out = Array.new
 		
 		out.push("inkscape #{path.chomp(".pdf")}.svg --export-pdf=#{path.chomp(".pdf")}.pdf")
-		out.push("pdfcrop #{path.chomp(".pdf")}.pdf")
+		out.push("pdfcrop #{path.chomp(".pdf")}.pdf > /dev/null")
 		out.push("mv #{path.chomp(".pdf")}-crop.pdf #{path.chomp(".pdf")}.pdf")
 		
 		return out
@@ -776,7 +810,7 @@ class PDFCropPDF
 	def PDFCropPDF.cmds(path)
 		out = Array.new
 		
-		out.push("pdfcrop #{path.chomp(".pdf")}.uncrop.pdf")
+		out.push("pdfcrop #{path.chomp(".pdf")}.uncrop.pdf > /dev/null")
 		out.push("mv  #{path.chomp(".pdf")}.uncrop-crop.pdf #{path.chomp(".pdf")}.pdf")
 		
 		return out
@@ -883,6 +917,7 @@ end
 @@processors.push(LatexPDF)
 @@processors.push(TexStex)
 @@processors.push(ODSStex)
+@@processors.push(DatStex)
 @@processors.push(GNUPlotPDF)
 @@processors.push(GNUPlotDAT)
 @@processors.push(GNUPlotStex)

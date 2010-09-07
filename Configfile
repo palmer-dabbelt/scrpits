@@ -10,11 +10,17 @@ SOURCES += coveradd.rb
 TARGETS += cnotes
 SOURCES += cnotes.rb
 
+TARGETS += dat2stex
+SOURCES += dat2stex.rb
+
 TARGETS += djvu2pdf
 SOURCES += djvu2pdf.bash
 
 TARGETS += gpgcat
 SOURCES += gpgcat.bash
+
+TARGETS += gnuplot2stex
+SOURCES += gnuplot2stex.bash
 
 TARGETS += journal
 SOURCES += journal.rb

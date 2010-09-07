@@ -108,7 +108,7 @@ comp.puts("
 }
 \\renewcommand{\\subsubsubtopic}[1]
 {
-	\\subsubsubsection{#1}
+	\\paragraph{#1}
 }
 \\makeatletter
 \\renewcommand{\\paragraph}{\\@startsection{paragraph}{4}{0ex}%

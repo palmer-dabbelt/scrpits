@@ -1,0 +1,1 @@
+nice -n 19 mencoder "$1" -o "$2" -mc 1 -ovc copy -oac mp3lame -lameopts preset=256
