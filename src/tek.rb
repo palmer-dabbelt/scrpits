@@ -459,13 +459,13 @@ end
 
 class DatStex
 	def DatStex.is_item(path)
-		return File.exists?("#{path.chomp(".stex")}.dat")
+		return File.exists?("#{path.chomp(".stex")}") && (path.chomp(".stex").split(".")[-1] == "dat")
 	end
 	
 	def DatStex.deps(path)
 		out = Array.new
 		
-		out.push("#{path.chomp(".stex")}.dat")
+		out.push("#{path.chomp(".stex")}")
 		
 		return out
 	end
@@ -473,7 +473,7 @@ class DatStex
 	def DatStex.cmds(path)
 		out = Array.new
 		
-		out.push("dat2stex #{path.chomp(".stex")}.dat #{path}")
+		out.push("dat2stex #{path.chomp(".stex")} #{path}")
 		
 		return out
 	end
@@ -516,6 +516,20 @@ class GNUPlotPDF
 				datfile = read.split("using")[0]
 				datfile.strip!
 				datfile.chomp_front!("plot")
+				datfile.strip!
+				datfile.chomp_front!("\"")
+				datfile.chomp!("\"")
+				datfile.strip!
+				
+				if (dir != ".")
+					datfile = "#{dir}/#{datfile}"
+				end
+				
+				out.push(datfile)
+			elsif (read.starts_with("splot") && read.include?("using"))
+				datfile = read.split("using")[0]
+				datfile.strip!
+				datfile.chomp_front!("splot")
 				datfile.strip!
 				datfile.chomp_front!("\"")
 				datfile.chomp!("\"")
@@ -612,13 +626,13 @@ end
 
 class GNUPlotStex
 	def GNUPlotStex.is_item(path)
-		return File.exists?("#{path.chomp(".stex")}.gnuplot")
+		return File.exists?("#{path.chomp(".stex")}") && (path.chomp(".stex").split(".")[-1] == "gnuplot")
 	end
 	
 	def GNUPlotStex.deps(path)
 		out = Array.new
 		
-		out.push("#{path.chomp(".stex")}.gnuplot")
+		out.push("#{path.chomp(".stex")}")
 		
 		return out
 	end
@@ -626,7 +640,7 @@ class GNUPlotStex
 	def GNUPlotStex.cmds(path)
 		out = Array.new
 		
-		out.push("gnuplot2stex #{path.chomp(".stex")}.gnuplot #{path.chomp(".stex")}.stex")
+		out.push("gnuplot2stex #{path.chomp(".stex")} #{path.chomp(".stex")}.stex")
 		
 		return out
 	end
