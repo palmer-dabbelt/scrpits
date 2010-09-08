@@ -1,11 +1,11 @@
 class String
 	def to_scin()
-		if !(self.downcase.include?("e"))
+		if !(self.include?("e"))
 			return self
 		end
 		
-		mantissa = self.downcase.split("e")[0].to_f
-		exponent = self.downcase.split("e")[1].to_i
+		mantissa = self.split("e")[0].to_f
+		exponent = self.split("e")[1].to_i
 		
 		if (exponent == 0)
 			return mantissa.to_s
