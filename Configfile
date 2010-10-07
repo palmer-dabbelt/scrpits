@@ -13,6 +13,9 @@ SOURCES += cnotes.rb
 TARGETS += dat2stex
 SOURCES += dat2stex.rb
 
+TARGETS += download_videocomp
+SOURCES += download_videocomp.rb
+
 TARGETS += djvu2pdf
 SOURCES += djvu2pdf.bash
 
@@ -99,3 +102,6 @@ SOURCES += woof.rb
 
 TARGETS += winetricks
 SOURCES += winetricks.bash
+
+TARGETS += qsub_video
+SOURCES += qsub_video.bash

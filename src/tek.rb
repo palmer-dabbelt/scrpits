@@ -384,8 +384,10 @@ class TexStex
 end
 
 class SourceHighlightStex
+	LANG_MAP = {"c" => "c", "f" => "fortran"}
+	
 	def SourceHighlightStex.is_item(path)
-		return File.exists?("#{path.chomp(".stex")}") && (["c"].include?(path.chomp(".stex").split(".")[-1]))
+		return File.exists?("#{path.chomp(".stex")}") && (LANG_MAP.keys.include?(path.chomp(".stex").split(".")[-1]))
 	end
 	
 	def SourceHighlightStex.deps(path)
@@ -399,7 +401,7 @@ class SourceHighlightStex
 	def SourceHighlightStex.cmds(path)
 		out = Array.new
 		
-		out.push("source-highlight -n #{path.chomp(".stex")} -f latexcolor")
+		out.push("source-highlight -n #{path.chomp(".stex")} -f latexcolor -s #{LANG_MAP[path.split(".")[-1]}")
 		out.push("mv #{path.chomp(".stex")}.tex #{path}")
 		
 		return out
@@ -949,6 +951,11 @@ end
 to_process = Array.new
 processed = Array.new
 @@make_file = Makefile.new
+
+# make clean's if it needs to
+if (File.exists?("Makefile"))
+	`make clean`
+end
 
 if (ARGV.size == 0)
 	Dir.foreach_r("."){|path|
