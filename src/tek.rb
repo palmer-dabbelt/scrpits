@@ -401,7 +401,7 @@ class SourceHighlightStex
 	def SourceHighlightStex.cmds(path)
 		out = Array.new
 		
-		out.push("source-highlight -n #{path.chomp(".stex")} -f latexcolor -s #{LANG_MAP[path.split(".")[-1]]}")
+		out.push("source-highlight -n #{path.chomp(".stex")} -f latexcolor -s #{LANG_MAP[path.split(".")[-2]]}")
 		out.push("mv #{path.chomp(".stex")}.tex #{path}")
 		
 		return out
