@@ -10,6 +10,9 @@ SOURCES += coveradd.rb
 TARGETS += cnotes
 SOURCES += cnotes.rb
 
+TARGETS += circuit_macros
+SOURCES += circuit_macros.bash
+
 TARGETS += dat2stex
 SOURCES += dat2stex.rb
 
