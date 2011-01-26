@@ -103,16 +103,25 @@ class Makefile
 		
 		out.puts("clean::")
 		@clean.each{|to_clean|
-			out.puts("\trm #{to_clean.to_s.inspect} 2> /dev/null || true")
+			out.puts("\t@rm #{to_clean.to_s.inspect} 2> /dev/null || true")
 		}
-		out.puts("\t#{`which pclean`.strip}")
+		out.puts("\t@#{`which pclean`.strip}")
 		out.puts("")
 		
 		@targets.each_pair{|name, dep|
 			out.puts("#{name}: #{dep.deps.join(" ")}")
 			
+			processor = ""
+			@@processors.each{|to_check|
+				if (to_check.is_item(name))
+					processor = to_check
+				end
+			}
+			processor = processor.to_s.upcase
+			
+			out.puts("\t@echo -e \"#{processor}\\t#{name.chomp_front("./")}\"")
 			dep.cmds.each{|cmd|
-				out.puts("\t#{cmd}")
+				out.puts("\t@#{cmd}")
 			}
 			
 			out.puts("")
@@ -235,6 +244,7 @@ class LatexPDF
 		out.push("#{path.chomp(".pdf")}.snm")
 		out.push("#{path.chomp(".pdf")}.lof")
 		out.push("#{path.chomp(".pdf")}.lot")
+		out.push("#{path.chomp(".pdf")}.dvi")
 		
 		return out
 	end
@@ -308,12 +318,12 @@ class GnuPGPDF
 	end
 end
 
-class TexStex
-	def TexStex.is_item(path)
+class LatexStex
+	def LatexStex.is_item(path)
 		return File.exists?("#{path.chomp(".stex")}.tex")
 	end
 	
-	def TexStex.deps(path)
+	def LatexStex.deps(path)
 		out = Array.new
 		
 		out.push("#{path.chomp(".stex")}.tex")
@@ -341,7 +351,7 @@ class TexStex
 		return out
 	end
 	
-	def TexStex.cmds(path)
+	def LatexStex.cmds(path)
 		out = Array.new
 		
 		out.push("texstrip #{path.chomp(".stex")}.tex #{path}")
@@ -349,7 +359,7 @@ class TexStex
 		return out
 	end
 	
-	def TexStex.created(path)
+	def LatexStex.created(path)
 		out = Array.new
 		
 		out.push("#{path.chomp(".stex")}.stex")
@@ -357,7 +367,7 @@ class TexStex
 		return out
 	end
 	
-	def TexStex.more(path)
+	def LatexStex.more(path)
 		out = Array.new
 		
 		dir = "."
@@ -384,7 +394,7 @@ class TexStex
 end
 
 class SourceHighlightStex
-	LANG_MAP = {"c" => "c", "f" => "fortran"}
+	LANG_MAP = {"c" => "c", "f" => "fortran", "h" => "c"}
 	
 	def SourceHighlightStex.is_item(path)
 		return File.exists?("#{path.chomp(".stex")}") && (LANG_MAP.keys.include?(path.chomp(".stex").split(".")[-1]))
@@ -927,11 +937,67 @@ class PostScriptPDF
 	end
 end
 
+class CircMacroPDF
+	def CircMacroPDF.is_item(path)
+		return File.exists?("#{path.chomp(".pdf")}.circuit")
+	end
+	
+	def CircMacroPDF.deps(path)
+		out = Array.new
+		
+		out.push("#{path.chomp(".pdf")}.circuit")
+		
+		return out
+	end
+	
+	def CircMacroPDF.cmds(path)
+		dir = "."
+		if (path.include?("/"))
+			dir = path.split("/")[0..-2].join("/")
+		end
+		
+		out = Array.new
+		
+		out.push("circuit_macros #{path.chomp(".pdf")}.circuit > #{path.chomp(".pdf")}.stex")
+		out.push("cd #{dir} ; latex -interaction=batchmode #{path.chomp(".pdf").chomp_front("#{dir}/")}.stex > /dev/null")
+		out.push("cd #{dir} ; latex -interaction=batchmode #{path.chomp(".pdf").chomp_front("#{dir}/")}.stex > /dev/null")
+		out.push("dvipdf #{path.chomp(".pdf")}.dvi #{path.chomp(".pdf")}.pdf > /dev/null")
+		out.push("pdfcrop #{path.chomp(".pdf")}.pdf > /dev/null")
+		out.push("mv #{path.chomp(".pdf")}-crop.pdf #{path.chomp(".pdf")}.pdf")
+		
+		out.push("rm #{path.chomp(".pdf")}.dvi 2> /dev/null || true")
+		out.push("rm #{path.chomp(".pdf")}.stex 2> /dev/null || true")
+		out.push("rm #{path.chomp(".pdf")}.log 2> /dev/null || true")
+		out.push("rm #{path.chomp(".pdf")}.aux 2> /dev/null || true")
+		out.push("rm #{path.chomp(".pdf")}-crop.pdf 2> /dev/null || true")
+		
+		return out
+	end
+	
+	def CircMacroPDF.created(path)
+		out = Array.new
+		
+		out.push("#{path.chomp(".pdf")}.stex")
+		out.push("#{path.chomp(".pdf")}.pdf")
+		out.push("#{path.chomp(".pdf")}.dvi")
+		out.push("#{path.chomp(".pdf")}.log")
+		out.push("#{path.chomp(".pdf")}.aux")
+		
+		return out
+	end
+	
+	def CircMacroPDF.more(path)
+		out = Array.new
+		
+		return out
+	end
+end
+
 
 # How we can process each type of file
 @@processors = Array.new
 @@processors.push(LatexPDF)
-@@processors.push(TexStex)
+@@processors.push(LatexStex)
 @@processors.push(ODSStex)
 @@processors.push(DatStex)
 @@processors.push(GNUPlotPDF)
@@ -946,6 +1012,7 @@ end
 @@processors.push(GnuPGPDF)
 @@processors.push(PostScriptPDF)
 @@processors.push(SourceHighlightStex)
+@@processors.push(CircMacroPDF)
 
 # All the .tex files in our item
 to_process = Array.new
@@ -960,7 +1027,9 @@ end
 if (ARGV.size == 0)
 	Dir.foreach_r("."){|path|
 		if (path.ends_with(".tex"))
-			to_process.push("#{path.chomp(".tex")}.pdf".chomp_front("./"))
+			if !(path.split("/")[1].strip == "_latex")
+				to_process.push("#{path.chomp(".tex")}.pdf".chomp_front("./"))
+			end
 		end
 	}
 else

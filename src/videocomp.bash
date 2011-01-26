@@ -11,7 +11,7 @@ x264file="$tmpdir/video.avi"
 
 # Encodes audio
 mkfifo $audiopipe
-nice -n 19 mplayer "$input" -vo null -ao pcm:file=$audiopipe $3 &
+nice -n 19 mplayer "$input" -cache 100000 -vo null -ao pcm:file=$audiopipe $3 &
 nice -n 19 oggenc $audiopipe -o $oggfile -q 0 --quiet $4
 rm -f $audiopipe
 
