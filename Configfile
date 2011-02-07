@@ -55,6 +55,9 @@ SOURCES += ods2prn.rb
 TARGETS += ods2stex
 SOURCES += ods2stex.rb
 
+TARGETS += pdfmerge
+SOURCES += pdfmerge.bash
+
 TARGETS += petchmail
 SOURCES += petchmail.rb
 

@@ -2,8 +2,20 @@ require 'date'
 
 class Dir
 	def Dir.foreach_r(path, &f)
+		ignore = Array.new
+		if (File.exists?("#{path}/.tekignore"))
+			file = File.open("#{path}/.tekignore")
+			ignore = file.readlines.map{|l| l.strip}
+			file.close
+		end
+			
 		Dir.foreach(path){|spath|
+			
 			if (spath[0].chr == ".")
+				# nothing
+			elsif (ignore.include?(spath.strip))
+				# nothing
+			elsif (ignore.include?("#{spath.strip}/"))
 				# nothing
 			elsif (File.directory?("#{path}/#{spath}"))
 				Dir.foreach_r("#{path}/#{spath}"){|sspath|

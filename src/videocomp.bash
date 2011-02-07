@@ -1,8 +1,13 @@
-#!/bin/sh
-
-tmpdir=`mktemp --directory`
 input="$1"
 output="$2"
+
+stat "$input"
+if [[ "$?" != "0" ]]
+then
+	exit $?
+fi
+
+tmpdir=`mktemp --directory`
 
 # Names
 audiopipe="$tmpdir/audiopipe"
