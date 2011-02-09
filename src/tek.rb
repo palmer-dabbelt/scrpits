@@ -130,8 +130,12 @@ class Makefile
 				end
 			}
 			processor = processor.to_s.upcase
+			if (processor.size < 8)
+				processor = "#{processor}\\t"
+			end
+			processor = "#{processor}\\t"
 			
-			out.puts("\t@echo -e \"#{processor}\\t#{name.chomp_front("./")}\"")
+			out.puts("\t@echo -e \"#{processor}#{name.chomp_front("./")}\"")
 			dep.cmds.each{|cmd|
 				out.puts("\t@#{cmd}")
 			}
@@ -605,6 +609,10 @@ class GNUPlotPDF
 			if (File.exists?("#{dep}.in") && File.exists?("#{dep}.proc"))
 				out.push("#{dep}")
 			end
+			
+			if (File.exists?("#{dep.chomp(".dat")}.ods"))
+				out.push("#{dep}")
+			end
 		}
 		
 		return out
@@ -613,14 +621,18 @@ end
 
 class GNUPlotDAT
 	def GNUPlotDAT.is_item(path)
-		return File.exists?("#{path.chomp(".dat")}.dat.in")
+		return File.exists?("#{path.chomp(".dat")}.dat.in") || File.exists?("#{path.chomp(".dat")}.ods")
 	end
 	
 	def GNUPlotDAT.deps(path)
 		out = Array.new
 		
-		out.push("#{path.chomp(".dat")}.dat.in")
-		out.push("#{path.chomp(".dat")}.dat.proc")
+		if (File.exists?("#{path.chomp(".dat")}.dat.in"))
+			out.push("#{path.chomp(".dat")}.dat.in")
+			out.push("#{path.chomp(".dat")}.dat.proc")
+		elsif (File.exists?("#{path.chomp(".dat")}.ods"))
+			out.push("#{path.chomp(".dat")}.ods")
+		end
 		
 		return out
 	end
@@ -628,7 +640,11 @@ class GNUPlotDAT
 	def GNUPlotDAT.cmds(path)
 		out = Array.new
 		
-		out.push("cat ./#{path.chomp(".dat")}.dat.in | ./#{path.chomp(".dat")}.dat.proc > ./#{path.chomp(".dat")}.dat")
+		if (File.exists?("#{path.chomp(".dat")}.dat.in"))
+			out.push("cat ./#{path.chomp(".dat")}.dat.in | ./#{path.chomp(".dat")}.dat.proc > ./#{path.chomp(".dat")}.dat")
+		elsif (File.exists?("#{path.chomp(".dat")}.ods"))
+			out.push("ods2prn ./#{path.chomp(".dat")}.ods > ./#{path.chomp(".dat")}.dat")
+		end
 		
 		return out
 	end

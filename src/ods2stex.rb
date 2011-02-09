@@ -42,7 +42,7 @@ else
 end
 
 number_of_rows = oo.last_column - oo.first_column + 1
-output.puts("\\begin{tabular}{#{1.upto(number_of_rows).to_a.map{|i| "l"}.join("")}}")
+output.puts("\\begin{tabular}{#{1.upto(number_of_rows).to_a.map{|i| "c"}.join("")}}")
 
 (oo.first_row).upto(oo.last_row){|row_num|
 	(oo.first_column).upto(oo.last_column){|col_num|
@@ -99,6 +99,9 @@ output.puts("\\begin{tabular}{#{1.upto(number_of_rows).to_a.map{|i| "l"}.join(""
 	}
 	
 	output.puts(" \\\\")
+	if (row_num == 1)
+		output.puts("\\hline")
+	end
 }
 
 output.puts("\\end{tabular}")
