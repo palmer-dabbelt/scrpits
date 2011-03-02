@@ -22,6 +22,6 @@ out2=`basename "$1"`
 echo "mv \"$1\" \"$out1/.converted/$out2\"" >> $jobname
 
 id=`qsub -q batch -l mem="$mem"kb $jobname`
-qrun $id 2>/dev/null
+#qrun $id 2>/dev/null
 rm $jobname
 echo $id

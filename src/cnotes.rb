@@ -112,12 +112,17 @@ comp.puts("
 }
 \\makeatletter
 \\renewcommand{\\paragraph}{\\@startsection{paragraph}{4}{0ex}%
-   {-3.25ex plus -1ex minus -0.2ex}%
-   {1.5ex plus 0.2ex}%
-   {\\normalfont\\normalsize\\bfseries}}
+{-3.25ex plus -1ex minus -0.2ex}%
+{1.5ex plus 0.2ex}%
+{\\normalfont\\normalsize\\bfseries}}
 \\makeatother
 ")
 comp.puts("")
+
+home = `echo $HOME`.strip
+if File.exists?("#{home}/.cnotesrc")
+	comp.puts(File.open("#{home}/.cnotesrc").readlines.join(""))
+end
 
 comp.puts("\\begin{document}")
 comp.puts("\\maketitle")

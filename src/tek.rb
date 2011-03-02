@@ -643,7 +643,7 @@ class GNUPlotDAT
 		if (File.exists?("#{path.chomp(".dat")}.dat.in"))
 			out.push("cat ./#{path.chomp(".dat")}.dat.in | ./#{path.chomp(".dat")}.dat.proc > ./#{path.chomp(".dat")}.dat")
 		elsif (File.exists?("#{path.chomp(".dat")}.ods"))
-			out.push("ods2prn ./#{path.chomp(".dat")}.ods > ./#{path.chomp(".dat")}.dat")
+			out.push("ods2dat ./#{path.chomp(".dat")}.ods > ./#{path.chomp(".dat")}.dat")
 		end
 		
 		return out
