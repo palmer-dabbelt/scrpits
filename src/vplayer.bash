@@ -1,5 +1,5 @@
 codec=`midentify "$1" | grep ID_VIDEO_CODEC | tail -1 | cut -d '=' -f '2'`
-mplayer="mplayer -volume 50 -cache 100000"
+mplayer="mplayer -volume 50 -cache 100000 -cache-min 1 -cache-seek-min 1"
 addons=""
 
 if [[ "$codec" == "ffh264" ]]

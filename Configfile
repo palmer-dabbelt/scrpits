@@ -25,6 +25,9 @@ SOURCES += download_videocomp.rb
 TARGETS += djvu2pdf
 SOURCES += djvu2pdf.bash
 
+TARGETS += tvfrontend
+SOURCES += tvfrontend.rb
+
 TARGETS += gpgcat
 SOURCES += gpgcat.bash
 
