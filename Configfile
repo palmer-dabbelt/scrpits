@@ -1,5 +1,6 @@
 LANGUAGES += ruby
 LANGUAGES += bash
+LANGUAGES += gcc
 
 TARGETS += 2mp3
 SOURCES += 2mp3.rb
@@ -99,6 +100,13 @@ SOURCES += tek.rb
 
 TARGETS += texstrip
 SOURCES += texstrip.bash
+
+TARGETS += v4l2cat
+LINKOPTS += -lv4l2
+SOURCES += v4l2cat.c
+
+TARGETS += v4l2img
+SOURCES += v4l2img.bash
 
 TARGETS += videocomp
 SOURCES += videocomp.bash
