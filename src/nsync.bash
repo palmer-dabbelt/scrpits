@@ -16,3 +16,10 @@ then
 	ionice -n 7 -c 2 $binary desktop-lulu-dabbelt-com
 fi
 
+if [[ "$local" == "laptop.palmer.dabbelt.com" ]]
+then
+	echo "laptop.palmer.dabbelt.com <==> server.dabbelt.com"
+	
+	ionice -n 7 -c 2 $binary laptop-palmer-dabbelt-com
+fi
+
