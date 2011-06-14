@@ -1,3 +1,6 @@
+HOME=`echo $HOME`.strip
+require "#{HOME}/.cnotesrc.rb"
+
 if (ARGV[0] != "dummy")
 	`cnotes dummy 2> /dev/null`
 	exit 0
@@ -22,8 +25,8 @@ if (File.exists?(outfile_path))
 	puts "'#{outfile_path}' already exists"
 	
 	# So edit it, instead
-	kwrite_thread = Thread.new{
-		`kwrite "#{outfile_path}"`
+	editor_thread = Thread.new{
+		`#{EDITOR} "#{outfile_path}"`
 	}
 	
 	# And exit
@@ -65,9 +68,9 @@ outfile.puts("\\end{document}")
 
 outfile.close
 
-# Instantly opens up kwrite, in addition, does some stuff in the background
-kwrite_thread = Thread.new{
-	`kwrite "#{outfile_path}"`
+# Instantly opens up #{EDITOR}, in addition, does some stuff in the background
+editor_thread = Thread.new{
+	`#{EDITOR} "#{outfile_path}"`
 }
 
 # Figures out every notes file
