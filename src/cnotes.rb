@@ -52,7 +52,7 @@ outfile.puts("")
 outfile.puts("\\begin{document}")
 
 if (class_name == "ealc250")
-	outfile.puts("\\begin{CJK*}{UTF8}{gbsn}")re
+	outfile.puts("\\begin{CJK*}{UTF8}{gbsn}")
 end
 
 outfile.puts("\\maketitle")
