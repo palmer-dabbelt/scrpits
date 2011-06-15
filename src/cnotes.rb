@@ -37,7 +37,7 @@ end
 # If we need to, create a new notes file
 class_name = `pwd`.strip.chomp("/").chomp("/notes").split("/")[-1].strip.downcase
 if (`pwd`.strip.split("/")[3].downcase == "research")
-	class_name = "research"
+	class_name = "research-#{`pwd`.strip.split("/")[4].downcase}"
 end
 
 # Uses the long date format in the notes
@@ -52,7 +52,7 @@ outfile.puts("")
 outfile.puts("\\begin{document}")
 
 if (class_name == "ealc250")
-	outfile.puts("\\begin{CJK*}{UTF8}{gbsn}")
+	outfile.puts("\\begin{CJK*}{UTF8}{gbsn}")re
 end
 
 outfile.puts("\\maketitle")
