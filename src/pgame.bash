@@ -14,5 +14,3 @@ then
 else
 	startx -- :2 $2
 fi
-
-

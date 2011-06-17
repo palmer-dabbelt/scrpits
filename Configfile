@@ -95,6 +95,9 @@ SOURCES += randomtv.rb
 TARGETS += recipe_manager
 SOURCES += recipe_manager.rb
 
+TARGETS += showtabs
+SOURCES += showtabs.bash
+
 TARGETS += tek
 SOURCES += tek.rb
 
