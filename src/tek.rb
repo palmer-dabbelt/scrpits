@@ -775,6 +775,42 @@ class PNGImagePDF
 	end
 end
 
+class PNMImagePDF
+	def PNMImagePDF.is_item(path)
+		return File.exists?("#{path.chomp(".pdf")}.pnm")
+	end
+	
+	def PNMImagePDF.deps(path)
+		out = PNMImagePDF.more(path)
+		
+		out.push("#{path.chomp(".pdf")}.pnm")
+		
+		return out
+	end
+	
+	def PNMImagePDF.cmds(path)
+		out = Array.new
+		
+		out.push("convert #{path.chomp(".pdf")}.pnm #{path.chomp(".pdf")}.pdf")
+		
+		return out
+	end
+	
+	def PNMImagePDF.created(path)
+		out = Array.new
+		
+		out.push("#{path.chomp(".pdf")}.pdf")
+		
+		return out
+	end
+	
+	def PNMImagePDF.more(path)
+		out = Array.new
+		
+		return out
+	end
+end
+
 class GIFImagePDF
 	def GIFImagePDF.is_item(path)
 		return File.exists?("#{path.chomp(".pdf")}.gif")
@@ -1033,6 +1069,7 @@ end
 @@processors.push(GNUPlotStex)
 @@processors.push(SVGImagePDF)
 @@processors.push(PNGImagePDF)
+@@processors.push(PNMImagePDF)
 @@processors.push(GIFImagePDF)
 @@processors.push(JPEGImagePDF)
 @@processors.push(PDFCropPDF)
