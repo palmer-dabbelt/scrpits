@@ -10,7 +10,6 @@ class Dir
 		end
 			
 		Dir.foreach(path){|spath|
-			
 			if (spath[0].chr == ".")
 				# nothing
 			elsif (ignore.include?(spath.strip))
