@@ -104,6 +104,9 @@ SOURCES += tek.rb
 TARGETS += texstrip
 SOURCES += texstrip.bash
 
+TARGETS += txt2stex
+SOURCES += txt2stex.rb
+
 TARGETS += v4l2cat
 LINKOPTS += -lv4l2
 SOURCES += v4l2cat.c

@@ -520,6 +520,42 @@ class DatStex
 	end
 end
 
+class TXTStex
+	def TXTStex.is_item(path)
+		return File.exists?("#{path.chomp(".stex")}.txt")
+	end
+	
+	def TXTStex.deps(path)
+		out = Array.new
+		
+		out.push("#{path.chomp(".stex")}.txt")
+		
+		return out
+	end
+	
+	def TXTStex.cmds(path)
+		out = Array.new
+		
+		out.push("txt2stex #{path.chomp(".stex")}.txt #{path.chomp(".stex")}.stex")
+		
+		return out
+	end
+	
+	def TXTStex.created(path)
+		out = Array.new
+		
+		out.push("#{path.chomp(".stex")}.stex")
+		
+		return out
+	end
+	
+	def TXTStex.more(path)
+		out = Array.new
+		
+		return out
+	end
+end
+
 class GNUPlotPDF
 	def GNUPlotPDF.is_item(path)
 		return File.exists?("#{path.chomp(".pdf")}.gnuplot")
@@ -1063,6 +1099,7 @@ end
 @@processors.push(LatexStex)
 @@processors.push(ODSStex)
 @@processors.push(DatStex)
+@@processors.push(TXTStex)
 @@processors.push(GNUPlotPDF)
 @@processors.push(GNUPlotDAT)
 @@processors.push(GNUPlotStex)
