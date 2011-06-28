@@ -170,6 +170,10 @@ class LatexPDF
 				out.push("#{dir}/#{read.split("{")[1].strip.split("}")[0].strip}")
 			end
 			
+			if (read.strip.starts_with("\\verbatiminput{"))
+				out.push("#{dir}/#{read.split("{")[1].strip.split("}")[0].strip}")
+			end
+			
 			if (read.strip.starts_with("\\includegraphics{") || read.strip.starts_with("\\includegraphics["))
 				out.push("#{dir}/#{read.split("{")[1].strip.split("}")[0].strip}")
 			end
@@ -283,6 +287,10 @@ class LatexPDF
 				out.push("#{dir}/#{read.split("{")[1].strip.split("}")[0].strip}")
 			end
 			
+			if (read.strip.starts_with("\\verbatiminput{"))
+				out.push("#{dir}/#{read.split("{")[1].strip.split("}")[0].strip}")
+			end
+			
 			if (read.strip.starts_with("\\includegraphics{") || read.strip.starts_with("\\includegraphics["))
 				out.push("#{dir}/#{read.split("{")[1].strip.split("}")[0].strip}")
 			end
@@ -356,6 +364,10 @@ class LatexStex
 				out.push("#{dir}/#{read.split("{")[1].strip.chomp("}").strip}")
 			end
 			
+			if (read.strip.starts_with("\\verbatiminput{"))
+				out.push("#{dir}/#{read.split("{")[1].strip.split("}")[0].strip}")
+			end
+			
 			if (read.strip.starts_with("\\includegraphics{") || read.strip.starts_with("\\includegraphics["))
 				out.push("#{dir}/#{read.split("{")[1].strip.chomp("}").strip}")
 			end
@@ -395,6 +407,10 @@ class LatexStex
 		while (read = file.gets)
 			if (read.strip.starts_with("\\input{"))
 				out.push("#{dir}/#{read.split("{")[1].strip.chomp("}").strip}")
+			end
+			
+			if (read.strip.starts_with("\\verbatiminput{"))
+				out.push("#{dir}/#{read.split("{")[1].strip.split("}")[0].strip}")
 			end
 			
 			if (read.strip.starts_with("\\includegraphics{") || read.strip.starts_with("\\includegraphics["))
