@@ -5,6 +5,9 @@ LANGUAGES += gcc
 TARGETS += 2mp3
 SOURCES += 2mp3.rb
 
+TARGETS += chkindent
+SOURCES += chkindent.bash
+
 TARGETS += consoledownload
 SOURCES += consoledownload.rb
 
