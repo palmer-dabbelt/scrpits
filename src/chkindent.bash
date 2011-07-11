@@ -12,6 +12,18 @@ then
 	dir="."
 fi
 
+if test -f "$dir"
+then
+	if [[ "$fix" == "--fix" ]]
+	then
+		indent "$dir"	
+	else
+		cat "$dir" | indent | diff - $dir
+	fi
+
+	exit $?
+fi
+
 return="0"
 for f in `find "$dir" -name "*.[ch]"`
 do
