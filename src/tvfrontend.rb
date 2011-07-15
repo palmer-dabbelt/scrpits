@@ -22,7 +22,7 @@ GTK_TABLE_WIDTH = 2
 
 button = Gtk::Button.new("Firefox")
 @table.attach_defaults(button, 0, 1, 0, 1)
-button.signal_connect("clicked"){`firefox`}
+button.signal_connect("clicked"){`firefox-bin`}
 
 button = Gtk::Button.new("XBMC")
 @table.attach_defaults(button, 1, 2, 0, 1)
