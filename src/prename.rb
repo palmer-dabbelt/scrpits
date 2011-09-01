@@ -1,3 +1,7 @@
+if (ARGV.size == 0)
+    puts `rename`
+end
+
 FROM=ARGV[0]
 TO=ARGV[1]
 FILES=ARGV[2..-1]
