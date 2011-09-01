@@ -1,5 +1,8 @@
 if (ARGV.size == 0)
-    puts `rename`
+    puts "prename: from to files..."
+    puts "\tFROM is the pattern in the original filenames"
+    puts "\tTO is the pattern that FROM will get changed into by running prename"
+    puts "\tFILES is the list of files to rename FROM=>TO on"
     exit 1
 end
 
