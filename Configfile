@@ -80,6 +80,9 @@ SOURCES += pgame.bash
 TARGETS += pmailbackup
 SOURCES += pmailbackup.rb
 
+TARGETS += prename
+SOURCES += prename.rb
+
 TARGETS += prsdl
 SOURCES += prsdl.rb
 
