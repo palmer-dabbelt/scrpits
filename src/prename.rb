@@ -1,5 +1,6 @@
 if (ARGV.size == 0)
     puts `rename`
+    exit 1
 end
 
 FROM=ARGV[0]
