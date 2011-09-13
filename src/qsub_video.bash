@@ -51,7 +51,7 @@ echo "mkvmerge $tempdir/audio.og $tempdir/video.avi \"$2\"" >> $job_mux
 echo "rm -rf $tempdir" >> $job_mux
 
 jobid_copy=`qsub -h $job_copy`
-jobid_audio=`qsub -W depend=afterok:$jobid_copy $job_audio`
-jobid_video=`qsub -W depend=afterok:$jobid_copy $job_video`
-jobid_mux=`qsub -W depend=afterok:$jobid_audio -W depend=afterok:$jobid_video $job_mux`
+jobid_audio=`qsub -W depend=afterany:$jobid_copy $job_audio`
+jobid_video=`qsub -W depend=afterany:$jobid_copy $job_video`
+jobid_mux=`qsub -W depend=afterany:$jobid_audio:$jobid_video $job_mux`
 qalter $jobid_copy -h n
