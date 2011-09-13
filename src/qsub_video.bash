@@ -11,7 +11,7 @@ THREADS="4"
 jobdir=`mktemp -d`
 mkdir -p $jobdir
 
-export TMPDIR="/home/scratch/$USER/$0"
+export TMPDIR="/home/scratch/$USER/qsub_video"
 mkdir -p $TMPDIR
 tempdir=`mktemp -d`
 mkdir -p $tempdir
@@ -51,7 +51,7 @@ echo "mkvmerge $tempdir/audio.og $tempdir/video.avi \"$2\"" >> $job_mux
 echo "rm -rf $tempdir" >> $job_mux
 
 jobid_copy=`qsub -h $job_copy`
-jobid_audio=`qsub -W depends=afterok:$jobid_copy $job_audio`
-jobid_video=`qsub -W depends=afterok:$jobid_copy $job_video`
-jobid_mux=`qsub -W depends=afterok:$jobid_audio -W depends=afterok:$jobid_video job_mux`
+jobid_audio=`qsub -W depend=afterok:$jobid_copy $job_audio`
+jobid_video=`qsub -W depend=afterok:$jobid_copy $job_video`
+jobid_mux=`qsub -W depend=afterok:$jobid_audio -W depend=afterok:$jobid_video $job_mux`
 qalter $jobid_copy -h n
