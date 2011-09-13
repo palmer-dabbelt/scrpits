@@ -20,6 +20,7 @@ job_copy="$jobdir/$jobname"_c
 echo "#!/bin/bash" > $job_copy
 echo "#PBS -q disk" >> $job_copy
 echo "#PBS -l nodes=1:ppn=1" >> $job_copy
+echo "#PBS -l nice=19" >> $job_copy
 echo "" >> $job_copy
 echo "cp \"$1\" $tempdir/input" >> $job_copy
 
@@ -27,6 +28,7 @@ job_audio="$jobdir/$jobname"_a
 echo "#!/bin/bash" > $job_audio
 echo "#PBS -q batch" >> $job_audio
 echo "#PBS -l nodes=1:ppn=2" >> $job_audio
+echo "#PBS -l nice=19" >> $job_audio
 echo "" >> $job_audio
 echo "mkfifo $tempdir/audiopipe" >> $job_audio
 echo "mplayer \"$1\" -vo null -ao pcm:file=$tempdir/audiopipe:fast -quiet &" \
@@ -39,6 +41,7 @@ job_video="$jobdir/$jobname"_v
 echo "#!/bin/bash" > $job_video
 echo "#PBS -q batch" >> $job_video
 echo "#PBS -l nodes=1:ppn=$THREADS" >> $job_video
+echo "#PBS -l nice=19" >> $job_video
 echo "" >> $job_video
 echo "mencoder \"$1\" -o $tempdir/video.avi -nosound -ovc x264 -x264encopts crf=20:bframes=8:b-adapt=2:b-pyramid=normal:ref=8:direct=auto:me=tesa:subme=10:trellis=2:threads=$THREADS -quiet" >> $job_video
 
@@ -46,6 +49,7 @@ job_mux="$jobdir/$jobname"_m
 echo "#!/bin/bash" > $job_mux
 echo "#PBS -q disk" >> $job_mux
 echo "#PBS -l nodes=1:ppn=1" >> $job_mux
+echo "#PBS -l nice=19" >> $job_mux
 echo "" >> $job_mux
 echo "mkvmerge $tempdir/audio.og $tempdir/video.avi \"$2\"" >> $job_mux
 echo "rm -rf $tempdir" >> $job_mux
