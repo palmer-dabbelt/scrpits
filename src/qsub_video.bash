@@ -58,6 +58,13 @@ echo "" >> $job_mux
 echo "mkvmerge $tempdir/audio.og $tempdir/video.avi \"$2\"" >> $job_mux
 echo "rm -rf $tempdir" >> $job_mux
 
+if [[ "$3" == "--edit" ]]
+then
+    echo $job_dir
+    echo "Press ENTER to continue"
+    read
+fi
+
 jobid_copy=`qsub -h $job_copy`
 jobid_audio=`qsub -W depend=afterany:$jobid_copy $job_audio`
 jobid_video=`qsub -W depend=afterany:$jobid_copy $job_video`
