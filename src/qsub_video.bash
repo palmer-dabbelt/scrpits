@@ -60,7 +60,7 @@ echo "rm -rf $tempdir" >> $job_mux
 
 if [[ "$3" == "--edit" ]]
 then
-    echo $job_dir
+    echo $jobdir
     echo "Press ENTER to continue"
     read
 fi
