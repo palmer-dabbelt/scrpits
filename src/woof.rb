@@ -36,6 +36,7 @@ filename_short = ARGV[0].split("/")[-1]
 client.puts("HTTP/1.0 302 Found")
 client.puts("Location: /#{filename_short}")
 client.puts("Content-type: text/html")
+client.puts("")
 client.puts("                <html>
                    <head><title>302 Found</title></head>
                    <body>302 Found <a href=\"#{filename_short}\">here</a>.</body>
