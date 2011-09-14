@@ -4,8 +4,15 @@ require 'thread'
 PORT = 8080
 HOSTNAME = "dabbelt.zapto.org"
 
+# Prints the IP address
+ip = `/sbin/ifconfig | grep "inet addr" | grep "Bcast" | head -1`.strip.split(":")[1].split(" ")[0]
+puts "IP Address: #{ip}"
+
 # Tells everybody we're listening
 puts "Listening on #{PORT}"
+
+# Prits out the URC
+puts "Direct your browser to 'http://#{ip}:#{PORT}'"
 
 # Accepts a single connection
 socket = TCPServer.new(PORT)
