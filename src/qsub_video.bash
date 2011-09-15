@@ -55,7 +55,7 @@ echo "#PBS -l nodes=1:ppn=1" >> $job_mux
 echo "#PBS -l nice=19" >> $job_mux
 echo "#PBS -k n" >> $job_mux
 echo "" >> $job_mux
-echo "mkvmerge $tempdir/audio.og $tempdir/video.avi \"$2\"" >> $job_mux
+echo "mkvmerge $tempdir/audio.og $tempdir/video.avi -o \"$2\"" >> $job_mux
 echo "rm -rf $tempdir" >> $job_mux
 
 if [[ "$3" == "--edit" ]]
