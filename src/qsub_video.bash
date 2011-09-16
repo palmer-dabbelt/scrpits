@@ -23,7 +23,7 @@ echo "#PBS -l nodes=1:ppn=1" >> $job_copy
 echo "#PBS -l nice=19" >> $job_copy
 echo "#PBS -k n" >> $job_copy
 echo "" >> $job_copy
-echo "cp \"$1\" $tempdir/input" >> $job_copy
+echo "time cp \"$1\" $tempdir/input" >> $job_copy
 
 job_audio="$jobdir/$jobname"_a
 echo "#!/bin/bash" > $job_audio
@@ -35,7 +35,7 @@ echo "" >> $job_audio
 echo "mkfifo $tempdir/audiopipe" >> $job_audio
 echo "mplayer \"$1\" -vo null -ao pcm:file=$tempdir/audiopipe:fast -quiet &" \
     >> $job_audio
-echo "oggenc $tempdir/audiopipe -o $tempdir/audio.ogg -q 1 --quiet" \
+echo "time oggenc $tempdir/audiopipe -o $tempdir/audio.ogg -q 1 --quiet" \
     >> $job_audio
 echo "rm -f $tempdir/audiopipe" >> $job_audio
 
@@ -46,7 +46,7 @@ echo "#PBS -l nodes=1:ppn=$THREADS" >> $job_video
 echo "#PBS -l nice=19" >> $job_video
 echo "#PBS -k n" >> $job_video
 echo "" >> $job_video
-echo "mencoder \"$1\" -o $tempdir/video.avi -nosound -ovc x264 -x264encopts crf=20:bframes=8:b-adapt=2:b-pyramid=normal:ref=8:direct=auto:me=tesa:subme=10:trellis=2:threads=$THREADS -quiet" >> $job_video
+echo "time mencoder \"$1\" -o $tempdir/video.avi -nosound -ovc x264 -x264encopts crf=20:bframes=8:b-adapt=2:b-pyramid=normal:ref=8:direct=auto:me=tesa:subme=10:trellis=2:threads=$THREADS -quiet" >> $job_video
 
 job_mux="$jobdir/$jobname"_m
 echo "#!/bin/bash" > $job_mux
@@ -55,7 +55,7 @@ echo "#PBS -l nodes=1:ppn=1" >> $job_mux
 echo "#PBS -l nice=19" >> $job_mux
 echo "#PBS -k n" >> $job_mux
 echo "" >> $job_mux
-echo "mkvmerge $tempdir/audio.ogg $tempdir/video.avi -o \"$2\"" >> $job_mux
+echo "time mkvmerge $tempdir/audio.ogg $tempdir/video.avi -o \"$2\"" >> $job_mux
 echo "rm -rf $tempdir" >> $job_mux
 
 if [[ "$3" == "--edit" ]]
