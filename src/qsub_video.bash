@@ -65,7 +65,7 @@ echo "mv \"$1\" \"$dname\"/converted/\"$fname\"" >> $job_mux
 
 if [[ "$3" == "--edit" ]]
 then
-    echo $jobdir
+    echo "$jobdir"
     echo "Press ENTER to continue"
     read
 fi
@@ -75,3 +75,5 @@ jobid_audio=`qsub -W depend=afterany:$jobid_copy $job_audio`
 jobid_video=`qsub -W depend=afterany:$jobid_copy $job_video`
 jobid_mux=`qsub -W depend=afterany:$jobid_audio:$jobid_video $job_mux`
 qalter $jobid_copy -h n
+
+rm -rf "$jobdir"
