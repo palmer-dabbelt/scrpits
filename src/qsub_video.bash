@@ -1,5 +1,8 @@
 jobname=`basename "$1" | cut -c 1-12`
 
+dname=`dirname "$1"`
+fname=`basename "$1"`
+
 stat "$1" > /dev/null
 if [[ "$?" != "0" ]]
 then
@@ -57,6 +60,8 @@ echo "#PBS -k n" >> $job_mux
 echo "" >> $job_mux
 echo "time mkvmerge $tempdir/audio.ogg $tempdir/video.avi -o \"$2\"" >> $job_mux
 echo "rm -rf $tempdir" >> $job_mux
+echo "mkdir \"$dname\"/converted/" >> $job_mux
+echo "mv \"$1\" \"$dname\"/converted/\"$fname\"" >> $job_mux
 
 if [[ "$3" == "--edit" ]]
 then
