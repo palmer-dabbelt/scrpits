@@ -2,12 +2,14 @@ local="$(hostname)"
 user="$(whoami)"
 binary="unison -ui text"
 
+set -e
+
 if [[ "$user" == "lulu" ]]
 then
     cwd=`pwd`
     cd ~/school/11fall/
-    git push
     git pull
+    git push
     cd "$pwd"
 fi
 
