@@ -13,6 +13,15 @@ then
     cd "$pwd"
 fi
 
+if [[ "$user" == "palmer" ]]
+then
+    cwd=`pwd`
+    ch ~/school/
+    git pull
+    git push
+    cd "$pwd"
+fi
+
 if [[ "$local" == "desktop.palmer.dabbelt.com" ]]
 then
 	echo "desktop.palmer.dabbelt.com <==> server.dabbelt.com"
