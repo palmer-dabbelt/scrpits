@@ -2,6 +2,15 @@ local="$(hostname)"
 user="$(whoami)"
 binary="unison -ui text"
 
+if [[ "$user" == "lulu" ]]
+then
+    cwd=`pwd`
+    cd ~/school/11fall/
+    git push
+    git pull
+    cd "$pwd"
+fi
+
 if [[ "$local" == "desktop.palmer.dabbelt.com" ]]
 then
 	echo "desktop.palmer.dabbelt.com <==> server.dabbelt.com"
