@@ -16,9 +16,15 @@ fi
 if [[ "$user" == "palmer" ]]
 then
     cwd=`pwd`
-    ch ~/school/
+
+    cd ~/school/
     git pull
     git push
+
+    cd ~/files/finances/ || cd ~/finances/
+    git pull
+    git push
+
     cd "$pwd"
 fi
 
@@ -41,5 +47,12 @@ then
 	echo "laptop.palmer.dabbelt.com <==> server.dabbelt.com"
 	
 	ionice -n 7 -c 2 $binary laptop-palmer-dabbelt-com
+fi
+
+if [[ "$local" == "tilera-laptop.palmer.dabbelt.com" ]]
+then
+	echo "tilera-laptop.palmer.dabbelt.com <==> server.dabbelt.com"
+	
+	ionice -n 7 -c 2 $binary tilera-laptop-palmer-dabbelt-com
 fi
 
