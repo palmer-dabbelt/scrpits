@@ -2,18 +2,18 @@ HOME=`echo $HOME`.strip
 require "#{HOME}/.cnotesrc.rb"
 
 if (ARGV[0] != "dummy")
-	`cnotes dummy 2> /dev/null`
-	exit 0
+  `cnotes dummy 2> /dev/null`
+  exit 0
 end
 
 class String
-	def ends_with(other)
-		if (self.size < other.size)
-			return false
-		else
-			return self[self.size - other.size .. -1] == other
-		end
-	end
+  def ends_with(other)
+    if (self.size < other.size)
+      return false
+    else
+      return self[self.size - other.size .. -1] == other
+    end
+  end
 end
 
 # Today's date, in short format
@@ -22,22 +22,22 @@ outfile_path = "#{date}.tex"
 
 # Checks that we're not going to overwrite some good notes
 if (File.exists?(outfile_path))
-	puts "'#{outfile_path}' already exists"
+  puts "'#{outfile_path}' already exists"
+  
+  # So edit it, instead
+  editor_thread = Thread.new{
+    `#{EDITOR} "#{outfile_path}"`
+  }
 	
-	# So edit it, instead
-	editor_thread = Thread.new{
-		`#{EDITOR} "#{outfile_path}"`
-	}
-	
-	# And exit
-	`this_process_does_not_exist`
-	exit
+  # And exit
+  `this_process_does_not_exist`
+  exit
 end
 
 # If we need to, create a new notes file
 class_name = `pwd`.strip.chomp("/").chomp("/notes").split("/")[-1].strip.downcase
 if (`pwd`.strip.split("/")[3].downcase == "research")
-	class_name = "research-#{`pwd`.strip.split("/")[4].downcase}"
+  class_name = "research-#{`pwd`.strip.split("/")[4].downcase}"
 end
 
 # Uses the long date format in the notes
@@ -52,7 +52,7 @@ outfile.puts("")
 outfile.puts("\\begin{document}")
 
 if (class_name == "ealc250")
-	outfile.puts("\\begin{CJK*}{UTF8}{gbsn}")
+  outfile.puts("\\begin{CJK*}{UTF8}{gbsn}")
 end
 
 outfile.puts("\\maketitle")
@@ -61,7 +61,7 @@ outfile.puts("")
 outfile.puts("")
 
 if (class_name == "ealc250")
-	outfile.puts("\\end{CJK*}")
+  outfile.puts("\\end{CJK*}")
 end
 
 outfile.puts("\\end{document}")
@@ -70,15 +70,17 @@ outfile.close
 
 # Instantly opens up #{EDITOR}, in addition, does some stuff in the background
 editor_thread = Thread.new{
-	`#{EDITOR} "#{outfile_path}"`
+  `touch "#{outfile_path}"`
+  `git add "#{outfile_path}"`
+  `#{EDITOR} "#{outfile_path}"`
 }
 
 # Figures out every notes file
 tex_files = Array.new
 Dir.foreach("."){|file|
-	if (file.ends_with(".tex"))
-		tex_files.push(file)
-	end
+  if (file.ends_with(".tex"))
+    tex_files.push(file)
+  end
 }
 tex_files.delete("__all__.tex")
 tex_files.sort!
@@ -124,7 +126,7 @@ comp.puts("")
 
 home = `echo $HOME`.strip
 if File.exists?("#{home}/.cnotesrc")
-	comp.puts(File.open("#{home}/.cnotesrc").readlines.join(""))
+  comp.puts(File.open("#{home}/.cnotesrc").readlines.join(""))
 end
 
 comp.puts("\\begin{document}")
@@ -141,13 +143,15 @@ comp.puts("")
 
 # Includes all the notes
 tex_files.each{|file|
-	comp.puts("\\input{#{file.chomp(".tex")}.stex}")
+  comp.puts("\\input{#{file.chomp(".tex")}.stex}")
 }
 comp.puts("")
 
 comp.puts("\\end{document}")
 
 comp.close
+
+`git add __all__.tex`
 
 # Updates the Configfile and Makefile
 `tek`
