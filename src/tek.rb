@@ -161,8 +161,9 @@ class LatexPDF
     out.push("#{path.chomp(".pdf")}.tex")
     
     file = File.new("#{path.chomp(".pdf")}.tex", "r")
-    linenumber = 1
+    linenumber = 0
     while (read = file.gets)
+      linenumber = linenumber + 1
       if (@@args_debug == true)
         puts "#{path.chomp(".pdf")}.tex: #{linenumber}"
       end
