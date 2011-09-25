@@ -1151,6 +1151,7 @@ args = ARGV.map{|s| "#{s}"}
 @@args_debug = false
 if (args.include?("--debug"))
   @@args_debug = true
+  args.delete("--debug")
 end
 
 if (args.size == 0)
