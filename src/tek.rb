@@ -161,13 +161,7 @@ class LatexPDF
     out.push("#{path.chomp(".pdf")}.tex")
     
     file = File.new("#{path.chomp(".pdf")}.tex", "r")
-    linenumber = 0
     while (read = file.gets)
-      linenumber = linenumber + 1
-      if (@@args_debug == true)
-        puts "#{path.chomp(".pdf")}.tex: #{linenumber}"
-      end
-      
       if (read.strip.starts_with("\\bibliography{") || read.strip.starts_with("\\makebibliography{"))
         out.push("#{dir}/#{read.split("{")[1].strip.split("}")[0].strip}.bib")
       end
@@ -1214,6 +1208,10 @@ while (to_process.size > 0)
     processed.push(item)
   }
   
+  if (@@args_debug == true)
+    puts "#{target} => [#{processor.more(target).join(" ")}]"
+  end
+
   processor.more(target).each{|item|
     if !(to_process.include?(item) || processed.include?(item))
       to_process.push(item)
