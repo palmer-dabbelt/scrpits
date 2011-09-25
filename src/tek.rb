@@ -163,7 +163,7 @@ class LatexPDF
     file = File.new("#{path.chomp(".pdf")}.tex", "r")
     linenumber = 1
     while (read = file.gets)
-      if (args_debug == true)
+      if (@@args_debug == true)
         puts "#{path.chomp(".pdf")}.tex: #{linenumber}"
       end
       
@@ -1148,9 +1148,9 @@ end
 
 args = ARGV.map{|s| "#{s}"}
 
-args_debug = false
+@@args_debug = false
 if (args.include?("--debug"))
-  args_debug = true
+  @@args_debug = true
 end
 
 if (args.size == 0)
