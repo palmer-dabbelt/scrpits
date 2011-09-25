@@ -1182,6 +1182,9 @@ to_process.each{|pdf_file|
 while (to_process.size > 0)
   # One single item which we need to parse
   target = to_process.pop
+  if (@@args_debug == true)
+    puts "Processing #{target}"
+  end
   
   # Picks a processor
   processor = nil
