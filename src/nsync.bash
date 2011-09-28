@@ -21,7 +21,11 @@ then
     git pull
     git push
 
-    cd ~/files/finances/ || cd ~/finances/
+    cd ~/files/finances/ 2> /dev/null || cd ~/finances/
+    git pull
+    git push
+
+    cd ~/.passwords/
     git pull
     git push
 
