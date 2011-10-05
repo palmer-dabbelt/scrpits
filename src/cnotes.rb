@@ -112,7 +112,9 @@ comp.puts("")
 
 home = `echo $HOME`.strip
 if File.exists?("#{home}/.cnotesrc")
+  comp.puts("% Start ~/.cnotesrc")
   comp.puts(File.open("#{home}/.cnotesrc").readlines.join(""))
+  comp.puts("% End ~/.cnotesrc")
 end
 
 comp.puts("\\begin{document}")
