@@ -97,24 +97,10 @@ comp.puts("\\date{#{start_date} - #{end_date}}")
 comp.puts("")
 
 comp.puts("
-\\renewcommand{\\topic}[1]
-{
-	\\section{#1}
-}
-
-\\renewcommand{\\subtopic}[1]
-{
-	\\subsection{#1}
-}
-
-\\renewcommand{\\subsubtopic}[1]
-{
-	\\subsubsection{#1}
-}
-\\renewcommand{\\subsubsubtopic}[1]
-{
-	\\paragraph{#1}
-}
+\\renewcommand{\\topic}[1]{\\section{#1}}
+\\renewcommand{\\subtopic}[1]{\\subsection{#1}}
+\\renewcommand{\\subsubtopic}[1]{\\subsubsection{#1}}
+\\renewcommand{\\subsubsubtopic}[1]{\\paragraph{#1}}
 \\makeatletter
 \\renewcommand{\\paragraph}{\\@startsection{paragraph}{4}{0ex}%
 {-3.25ex plus -1ex minus -0.2ex}%
@@ -142,8 +128,15 @@ comp.puts("")
 comp.puts("")
 
 # Includes all the notes
+inputnum = 1
 tex_files.each{|file|
+  if (inputnum != 1)
+    comp.puts("\\newlecture")
+  else
+    comp.puts("\\firstlecture")
+  end
   comp.puts("\\input{#{file.chomp(".tex")}.stex}")
+  inputnum = inputnum + 1
 }
 comp.puts("")
 
