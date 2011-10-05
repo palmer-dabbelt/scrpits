@@ -2,7 +2,6 @@ require 'socket'
 require 'thread'
 
 PORT = 8080
-HOSTNAME = "dabbelt.zapto.org"
 
 # Prints the IP address
 ip = `/sbin/ifconfig | grep "inet addr" | grep "Bcast" | head -1`.strip.split(":")[1].split(" ")[0]
