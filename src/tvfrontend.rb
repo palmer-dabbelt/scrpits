@@ -28,9 +28,9 @@ button = Gtk::Button.new("XBMC")
 @table.attach_defaults(button, 1, 2, 0, 1)
 button.signal_connect("clicked"){`xbmc`}
 
-button = Gtk::Button.new("Dolphin")
+button = Gtk::Button.new("VirtualBox")
 @table.attach_defaults(button, 1, 2, 1, 2)
-button.signal_connect("clicked"){`/home/tv/dolphin-emu/install/bin/dolphin-emu`}
+button.signal_connect("clicked"){`VirtualBox`}
 
 button = Gtk::Button.new("VLC")
 @table.attach_defaults(button, 0, 1, 1, 2)
