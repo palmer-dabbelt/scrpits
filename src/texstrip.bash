@@ -9,5 +9,5 @@ then
 fi
 
 echo "% Created by texstrip, will be overwritten -- do not edit" > $out
-cat $in | grep -v "documentclass{" | grep -v "begin{document}" | grep -v "end{document}" | grep -v "newcommand" | grep -v "usepackage{" >> $out
+cat $in | grep -v "documentclass{" | grep -v "begin{document}" | grep -v "end{document}" | grep -v "usepackage{" >> $out
 
