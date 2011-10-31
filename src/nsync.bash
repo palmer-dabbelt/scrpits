@@ -29,6 +29,14 @@ then
     git pull
     git push
 
+    cd ~/work/resume/
+    git pull
+    git push
+
+    cd ~/public_html
+    git pull
+    git push
+
     cd "$pwd"
 fi
 
