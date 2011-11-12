@@ -29,6 +29,9 @@ SOURCES += download_videocomp.rb
 TARGETS += djvu2pdf
 SOURCES += djvu2pdf.bash
 
+TARGETS += edit
+SOURCES += edit.bash
+
 TARGETS += ffs
 SOURCES += ffs.bash
 
