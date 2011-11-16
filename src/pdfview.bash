@@ -1,1 +1,0 @@
-evince "$1" >& /dev/null &

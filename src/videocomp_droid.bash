@@ -1,1 +1,0 @@
-nice -n 19 mencoder -frames 1000 "$1" -noskip -mc 0 -vf scale=480:-2 -ovc x264 -of lavf -lavfopts format=mp4 -o "$2" -oac faac -faacopts br=128:mpeg=4:object=2:raw -x264encopts vbv_maxrate=768:bframes=0:cabac=0:ref=2:me=umh:subme=6:8x8dct=0:trellis=0:global_header

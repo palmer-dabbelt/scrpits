@@ -1,1 +1,0 @@
-nice -n 19 mencoder "$1" -noskip -mc 0 -vf scale=640:-2,dsize=640:-2 -ovc x264 -of lavf -lavfopts format=ipod -o "$2" -x264encopts vbv_maxrate=1500:vbv_bufsize=244:nocabac:level_idc=13:global_header:bframes=0 -oac faac -faacopts br=128:mpeg=4:object=2:raw
