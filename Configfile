@@ -1,0 +1,4 @@
+LANGUAGES += bash
+
+BINARIES  += nsync
+SOURCES   += nsync/main.bash
