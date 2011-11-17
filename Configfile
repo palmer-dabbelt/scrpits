@@ -2,3 +2,9 @@ LANGUAGES += bash
 
 BINARIES  += nsync
 SOURCES   += nsync/main.bash
+
+BINARIES  += chkindent
+SOURCES	  += chkindent/main.bash
+
+BINARIES  += gnome-terminal-wrapper
+SOURCES	  += gnome-terminal-wrapper/main.bash
