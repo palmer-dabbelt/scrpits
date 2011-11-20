@@ -8,3 +8,6 @@ SOURCES	  += chkindent/main.bash
 
 BINARIES  += gnome-terminal-wrapper
 SOURCES	  += gnome-terminal-wrapper/main.bash
+
+BINARIES  += gpgcat
+SOURCES	  += gpgcat/main.bash
