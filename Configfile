@@ -11,3 +11,6 @@ SOURCES	  += gnome-terminal-wrapper/main.bash
 
 BINARIES  += gpgcat
 SOURCES	  += gpgcat/main.bash
+
+BINARIES  += flashfiles
+SOURCES	  += flashfiles/main.bash
