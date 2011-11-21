@@ -1,19 +1,29 @@
-#!/usr/bin/env ruby
+process=""
+fd=""
+for x in $(lsof -Fpfn /tmp/)
+do
+    tst=`echo "$x" | cut -c1`
+    if [[ "$tst" == "p" ]]
+    then
+	process=`echo "$x" | cut -c2-80`
+	process=`echo "$process"`
+    fi
 
-#!/usr/bin/env ruby
-proc = nil
-fd = nil
-name = nil
-`lsof -Fpfn -- /tmp/`.split("\n").each{|line|
-  line.strip!
-  if (line[0].chr == "p")
-    proc = line[1..-1]
-  elsif (line[0].chr == "f")
-    fd = line[1..-1]
-  elsif (line[0..10] == "n/tmp/Flash")
-    if (fd != nil)
-      puts "/proc/#{proc}/fd/#{fd}"
-    end
-    fd = nil
-  end
-}
+    if [[ "$tst" == "f" ]]
+    then
+	fd=`echo "$x" | cut -c2-80`
+	fd=`echo "$fd"`
+    fi
+
+    if [[ "$tst" == "n" ]]
+    then
+	name=`echo "$x" | cut -c 2-80 | cut -d ' ' -f 1`
+	name=`echo "$name"`
+	tst=`echo "$name" | cut -c 1-10`
+	
+	if [[ "$tst" == "/tmp/Flash" ]]
+	then
+	    echo /proc/"$process"/fd/"$fd"
+	fi
+    fi
+done
