@@ -14,3 +14,9 @@ SOURCES	  += gpgcat/main.bash
 
 BINARIES  += flashfiles
 SOURCES	  += flashfiles/main.bash
+
+BINARIES  += wingsoliberty
+SOURCES	  += wine/wingsoliberty.bash
+
+BINARIES  += rayman2
+SOURCES	  += wine/rayman2.bash
