@@ -23,3 +23,6 @@ SOURCES	  += wine/rayman2.bash
 
 BINARIES  += sc2gears
 SOURCES	  += wine/sc2gears.bash
+
+BINARIES  += broodwar
+SOURCES	  += wine/broodwar.bash
