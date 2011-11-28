@@ -1,4 +1,5 @@
 LANGUAGES += bash
+LANGUAGES += c
 
 BINARIES  += nsync
 SOURCES   += nsync/main.bash
@@ -26,3 +27,6 @@ SOURCES	  += wine/sc2gears.bash
 
 BINARIES  += broodwar
 SOURCES	  += wine/broodwar.bash
+
+BINARIES  += randompass
+SOURCES	  += randompass/main.c
