@@ -1,6 +1,10 @@
 #include <unistd.h>
 #include <stdio.h>
 
+#ifndef PROCESSORS
+#error "Define PROCESSORS, the number of CPUs in the system"
+#endif
+
 int main(int argc, char **argv)
 {
     int ret;
@@ -12,7 +16,7 @@ int main(int argc, char **argv)
         return ret;
     }
 
-    ret = system("make");
+    ret = system("make -j" PROCESSORS);
     if (ret != 0)
     {
         fprintf(stderr, "'make' failed\n");
