@@ -30,3 +30,6 @@ SOURCES	  += wine/broodwar.bash
 
 BINARIES  += randompass
 SOURCES	  += randompass/main.c
+
+BINARIES  += remake
+SOURCES	  += remake/main.c
