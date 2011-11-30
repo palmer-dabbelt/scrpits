@@ -33,3 +33,6 @@ SOURCES	  += randompass/main.c
 
 BINARIES  += remake
 SOURCES	  += remake/main.c
+
+BINARIES  += jstream
+SOURCES	  += jstream/main.bash
