@@ -36,3 +36,6 @@ SOURCES	  += remake/main.c
 
 BINARIES  += jstream
 SOURCES	  += jstream/main.bash
+
+BINARIES  += soulcalibur2
+SOURCES	  += dolphin/soulcalibur2.bash
