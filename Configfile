@@ -39,3 +39,9 @@ SOURCES	  += jstream/main.bash
 
 BINARIES  += soulcalibur2
 SOURCES	  += dolphin/soulcalibur2.bash
+
+BINARIES  += counterstrike
+SOURCES	  += wine/counterstrike.bash
+
+BINARIES  += steam
+SOURCES	  += wine/steam.bash
