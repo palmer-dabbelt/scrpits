@@ -45,3 +45,6 @@ SOURCES	  += wine/counterstrike.bash
 
 BINARIES  += steam
 SOURCES	  += wine/steam.bash
+
+BINARIES  += mathematica
+SOURCES	  += mathematica/mathematica.bash
