@@ -1,1 +1,1 @@
-$HOME/.local/bin/mathematica --nosplashscreen $@ 2> /dev/null &
+$HOME/.local/bin/Mathematica --nosplashscreen $@ 2> /dev/null &
