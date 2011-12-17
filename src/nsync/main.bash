@@ -7,9 +7,19 @@ set -e
 if [[ "$user" == "lulu" ]]
 then
     cwd=`pwd`
+
     cd ~/school/11fall/
     git pull
     git push
+
+    cd ~/.local/share/latex/school
+    git pull
+    git push
+
+    cd ~/.local/share/latex/school-personal
+    git pull
+    git push
+
     cd "$pwd"
 fi
 
@@ -34,6 +44,14 @@ then
     git push
 
     cd ~/public_html
+    git pull
+    git push
+
+    cd ~/.local/share/latex/school
+    git pull
+    git push
+
+    cd ~/.local/share/latex/school-personal
     git pull
     git push
 
