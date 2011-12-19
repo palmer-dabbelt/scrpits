@@ -27,10 +27,6 @@ if [[ "$user" == "palmer" ]]
 then
     cwd=`pwd`
 
-    cd ~/school/
-    git pull
-    git push
-
     cd ~/files/finances/ 2> /dev/null || cd ~/finances/
     git pull
     git push
