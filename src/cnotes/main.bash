@@ -11,7 +11,9 @@ fi
 
 longdate=`date "+%B %e, %Y"`
 
-cat >$file <<EOF
+if ! test -f $file
+then
+    cat >$file <<EOF
 \\documentclass{school-${class}-notes}
 \\date{$longdate}
 
@@ -22,6 +24,7 @@ cat >$file <<EOF
 
 \\end{document}
 EOF
+fi
 
 start_date=$(cat `find -iname "*.tex" -type f | grep -v "__all__" | sort | head -1` | grep "\\date{" | head -1 | cut -d '{' -f 2 | cut -d '}' -f 1)
 end_date=$(cat `find -iname "*.tex" -type f | grep -v "__all__" | sort | tail -1` | grep "\\date{" | head -1 | cut -d '{' -f 2 | cut -d '}' -f 1)
@@ -72,6 +75,10 @@ cat >>$afile <<EOF
 \\end{document}
 EOF
 
-git add $file
-git add $afile
+if git rev-parse >& /dev/null
+then
+    git add $file
+    git add $afile
+fi
+
 $VISUAL $file >& /dev/null &
