@@ -48,3 +48,6 @@ SOURCES	  += wine/steam.bash
 
 BINARIES  += mathematica
 SOURCES	  += mathematica/mathematica.bash
+
+BINARIES  += cnotes
+SOURCES	  += cnotes/main.bash
