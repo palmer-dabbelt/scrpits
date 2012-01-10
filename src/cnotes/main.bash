@@ -11,6 +11,7 @@ fi
 
 longdate=`date "+%B %e, %Y"`
 
+# If the notes file exists then don't overwrite it
 if ! test -f $file
 then
     cat >$file <<EOF
@@ -26,9 +27,11 @@ then
 EOF
 fi
 
+# Finds the first and last notes in the list and uses their dates
 start_date=$(cat `find -iname "*.tex" -type f | grep -v "__all__" | sort | head -1` | grep "\\date{" | head -1 | cut -d '{' -f 2 | cut -d '}' -f 1)
 end_date=$(cat `find -iname "*.tex" -type f | grep -v "__all__" | sort | tail -1` | grep "\\date{" | head -1 | cut -d '{' -f 2 | cut -d '}' -f 1)
 
+# Creates the file that lists all notes
 cat >$afile <<EOF
 \\documentclass{school-${class}-notes}
 \\date{${start_date} - ${end_date}}
@@ -46,12 +49,14 @@ cat >$afile <<EOF
 
 EOF
 
+# If there is a configuration file then use it
 if test -f ~/.cnotesrc
 then
     cat ~/.cnotesrc >> $afile
     echo "" >> $afile
 fi
 
+# More header information
 cat >>$afile <<EOF
 \\documentclass{document}
 \\maketitle
@@ -62,6 +67,7 @@ cat >>$afile <<EOF
 
 EOF
 
+# Lists every tex file
 for f in $(find -iname "*.tex" -type f)
 do
     f=`basename $f`
@@ -71,14 +77,34 @@ do
     fi
 done
 
+# Finishes the input file
 cat >>$afile <<EOF
 \\end{document}
 EOF
 
+# If there is a git repository then add these files
 if git rev-parse >& /dev/null
 then
     git add $file
     git add $afile
 fi
 
-$VISUAL $file >& /dev/null &
+# Looks for an editor 
+if [[ "$CNOTES_EDITOR" != "" ]]
+then
+    $CNOTES_EDITOR $file
+elif [[ "$VISUAL" != "" ]]
+then
+    $VISUAL $file >& /dev/null &
+elif [[ "$EDITOR" != "" ]]
+then
+    $EDITOR $file
+else
+    echo "Set CNOTES_EDITOR, VISUAL, or EDITOR"
+fi
+
+# Runs git add again, this only really matters if it's not a visual editor
+if git rev-parse >& /dev/null
+then
+    git add $file
+fi
