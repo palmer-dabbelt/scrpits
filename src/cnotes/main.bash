@@ -89,6 +89,12 @@ then
     git add $afile
 fi
 
+# Checks for tek and runs it
+if test -e `tek`
+then
+    tek
+fi
+
 # Looks for an editor 
 if [[ "$CNOTES_EDITOR" != "" ]]
 then
