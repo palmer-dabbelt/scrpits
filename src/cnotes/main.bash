@@ -101,7 +101,7 @@ then
     $CNOTES_EDITOR $file
 elif [[ "$VISUAL" != "" ]]
 then
-    $VISUAL $file >& /dev/null &
+    $VISUAL $file
 elif [[ "$EDITOR" != "" ]]
 then
     $EDITOR $file
