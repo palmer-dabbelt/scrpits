@@ -51,3 +51,6 @@ SOURCES	  += mathematica/mathematica.bash
 
 BINARIES  += cnotes
 SOURCES	  += cnotes/main.bash
+
+BINARIES  += ppulse
+SOURCES	  += ppulse/main.bash
