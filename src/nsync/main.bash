@@ -51,6 +51,10 @@ then
     git pull
     git push
 
+    cd ~/.pim
+    git pull
+    git push
+
     cd "$pwd"
 fi
 
