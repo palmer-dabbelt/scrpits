@@ -8,7 +8,11 @@ then
     up=$(dirname `pwd`)
     class=$(basename $up)
 fi
-
+research=$(basename $(dirname $(dirname `pwd`)))
+if [[ "$research" == "research" ]]
+then
+    class="research"
+fi
 
 longdate=`date "+%B %e, %Y"`
 
