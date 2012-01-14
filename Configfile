@@ -54,3 +54,6 @@ SOURCES	  += cnotes/main.bash
 
 BINARIES  += ppulse
 SOURCES	  += ppulse/main.bash
+
+BINARIES  += mkuse
+SOURCES	  += mkuse/main.bash
