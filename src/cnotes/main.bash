@@ -68,7 +68,7 @@ cat >>$afile <<EOF
 EOF
 
 # Lists every tex file
-for f in $(find -iname "*.tex" -type f)
+for f in $(find -iname "*.tex" -type f | sort)
 do
     f=`basename $f`
     if [[ "$f" != "__all__.tex" ]]
