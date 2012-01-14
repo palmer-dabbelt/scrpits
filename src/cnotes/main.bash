@@ -58,7 +58,7 @@ fi
 
 # More header information
 cat >>$afile <<EOF
-\\documentclass{document}
+\\begin{document}
 \\maketitle
 \\makecontents
 
