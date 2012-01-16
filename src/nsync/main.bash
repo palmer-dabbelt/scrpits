@@ -12,6 +12,10 @@ then
     git pull
     git push
 
+    cd ~/research/11fall/notes
+    git pull
+    git push
+
     cd ~/.local/share/latex/school
     git pull
     git push
