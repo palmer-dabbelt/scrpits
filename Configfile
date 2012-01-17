@@ -57,3 +57,9 @@ SOURCES	  += ppulse/main.bash
 
 BINARIES  += mkuse
 SOURCES	  += mkuse/main.bash
+
+BINARIES  += sumcheck
+SOURCES	  += sumcheck/sumcheck.bash
+
+BINARIES  += allsumcheck
+SOURCES	  += sumcheck/allsumcheck.bash
