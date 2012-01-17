@@ -1,6 +1,6 @@
 of=".sha256sums"
 temp=`mktemp`
-dir=$(basename `pwd`)
+dir=$(basename "$(pwd)")
 
 # Makes sure the file exists
 touch "$of"
