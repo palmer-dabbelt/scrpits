@@ -12,3 +12,5 @@ do
     fi
     cd "$origdir"
 done
+
+exit $retval

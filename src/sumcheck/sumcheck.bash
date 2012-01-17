@@ -17,7 +17,15 @@ done
 
 # Actually preforms the verification
 files=$(cat .sha256sums | wc -l)
+out=0
 if [[ "$files" != 0 ]]
 then
     sha256sum -c "$of"
+    if [[ "$?" == 0 ]]
+    then
+	out=1
+    fi
 fi
+
+# Collects the errors
+exit $out
