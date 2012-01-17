@@ -6,7 +6,6 @@ touch "$of"
 # Adds everything that hasn't yet been added to the directory listing
 find . -maxdepth 1 -type f ! -iname "$of" -print0 | while read -d $'\0' file
 do
-    echo $file
     out=$(cat "$of" | cut -c 67- | grep "^$file$")
     if [[ "$out" != "$file" ]]
     then
