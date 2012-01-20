@@ -63,3 +63,6 @@ SOURCES	  += sumcheck/sumcheck.bash
 
 BINARIES  += allsumcheck
 SOURCES	  += sumcheck/allsumcheck.bash
+
+BINARIES  += mailaddr
+SOURCES	  += mailaddr/main.bash
