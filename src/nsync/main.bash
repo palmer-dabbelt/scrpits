@@ -8,7 +8,7 @@ if [[ "$user" == "lulu" ]]
 then
     cwd=`pwd`
 
-    cd ~/school/11fall/
+    cd ~/school/12IAP
     git pull
     git push
 
