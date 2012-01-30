@@ -3,7 +3,7 @@
 set -e
 
 ORIGDIR=`pwd`
-NSYNC="${ORIGDIR}/$0"
+NSYNC="$0"
 CONFIG="${HOME}/.nsyncrc"
 
 if [ "$1" = "" ]
