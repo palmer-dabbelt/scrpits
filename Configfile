@@ -66,3 +66,10 @@ SOURCES	  += sumcheck/allsumcheck.bash
 
 BINARIES  += mailaddr
 SOURCES	  += mailaddr/main.bash
+
+BINARIES  += v4l2ppm
+LINKOPTS  += -lv4l2
+SOURCES	  += v4l2/v4l2ppm.c
+
+BINARIES  += v4l2img
+SOURCES	  += v4l2/v4l2img.bash
