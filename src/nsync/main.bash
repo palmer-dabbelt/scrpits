@@ -1,96 +1,74 @@
-local="$(hostname)"
-user="$(whoami)"
-binary="unison -ui text"
+#!/bin/bash
 
 set -e
 
-if [[ "$user" == "lulu" ]]
+ORIGDIR=`pwd`
+NSYNC="${ORIGDIR}/$0"
+CONFIG="${HOME}/.nsyncrc"
+
+if [ "$1" = "" ]
 then
-    cwd=`pwd`
+    cd "$HOME"
 
-    cd ~/school/11fall
-    git pull
+    # Recurses in every submodule, potentially doing some extra work
+    git submodule foreach --quiet env SUBMODULE=\$path "$NSYNC" --submodule
+
+    # Adds every submodule, as we just want to keep them always updated
+    git submodule foreach --quiet "cd $ORIGDIR ; git add \$path"
+
+    # Done with submodules
+    echo "HOME $HOME"
+
+    # Some things can just be automatically added
+    grep "^add " "$CONFIG" | sed s/'^add '/''/ | while read file
+    do
+	if test -e "$file"
+	then
+	    git add "$file"
+	fi
+    done
+
+    # If there are uncomitted files then add them 
+    if [ "$(git status --porcelain | wc -l)" != '0' ]
+    then
+        # Asks for a commit message but also supplies one
+	git commit -m "nsync auto add" -e
+    fi
+
+    # Pushes all our changes
     git push
 
-    cd ~/school/12IAP
-    git pull
-    git push
-
-    cd ~/research/11fall/notes
-    git pull
-    git push
-
-    cd ~/.local/share/latex/school
-    git pull
-    git push
-
-    cd ~/.local/share/latex/school-personal
-    git pull
-    git push
-
-    cd "$pwd"
-fi
-
-if [[ "$user" == "palmer" ]]
+    cd "$ORIGDIR"
+elif [ "$1" = "--submodule" ]
 then
-    cwd=`pwd`
+    echo "SUBMODULE $SUBMODULE"
 
-    cd ~/files/finances/ 2> /dev/null || cd ~/finances/
-    git pull
-    git push
+    if [ "$(grep -c "^nopull $SUBMODULE$" "$CONFIG")" = "0" ]
+    then
+	echo "git pull"
+	git pull
+    fi
 
-    cd ~/.passwords/
-    git pull
-    git push
+    if [ "$(grep -c "^addall $SUBMODULE$" "$CONFIG")" = "1" ]
+    then
+	echo "git add ."
+	git add .
+    fi
 
-    cd ~/work/resume/
-    git pull
-    git push
+    if [ "$(grep -c "^commit $SUBMODULE$" "$CONFIG")" = "1" ]
+    then
+	if [ "$(git status --porcelain | wc -l)" != '0' ]
+	then
+            echo "git commit"
+            git commit -m "nsync auto add" -e
+	fi
+    fi
 
-    cd ~/public_html
-    git pull
-    git push
+    if [ "$(grep -c "^nopush $SUBMODULE$" "$CONFIG")" = "0" ]
+    then
+	echo "git push"
+        git push
+    fi
 
-    cd ~/.local/share/latex/school
-    git pull
-    git push
-
-    cd ~/.local/share/latex/school-personal
-    git pull
-    git push
-
-    cd ~/.pim
-    git pull
-    git push
-
-    cd "$pwd"
+    echo ""
 fi
-
-if [[ "$local" == "desktop.palmer.dabbelt.com" ]]
-then
-	echo "desktop.palmer.dabbelt.com <==> server.dabbelt.com"
-	
-	ionice -n 7 -c 2 $binary desktop-palmer-dabbelt-com
-fi
-
-if [[ "$local" == "desktop.lulu.dabbelt.com" ]]
-then
-	echo "desktop.lulu.dabbelt.com <==> server.dabbelt.com"
-	
-	ionice -n 7 -c 2 $binary desktop-lulu-dabbelt-com
-fi
-
-if [[ "$local" == "laptop.palmer.dabbelt.com" ]]
-then
-	echo "laptop.palmer.dabbelt.com <==> server.dabbelt.com"
-	
-	ionice -n 7 -c 2 $binary laptop-palmer-dabbelt-com
-fi
-
-if [[ "$local" == "tilera-laptop.palmer.dabbelt.com" ]]
-then
-	echo "tilera-laptop.palmer.dabbelt.com <==> server.dabbelt.com"
-	
-	ionice -n 7 -c 2 $binary tilera-laptop-palmer-dabbelt-com
-fi
-
