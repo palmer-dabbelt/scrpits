@@ -18,6 +18,8 @@ then
 
     # Done with submodules
     echo "HOME $HOME"
+    echo "git pull"
+    git pull --quiet
 
     # Some things can just be automatically added
     grep "^add " "$CONFIG" | sed s/'^add '/''/ | while read file
@@ -32,11 +34,13 @@ then
     if [ "$(git status --porcelain | wc -l)" != '0' ]
     then
         # Asks for a commit message but also supplies one
+	echo "git commit"
 	git commit -m "nsync auto add" -e
     fi
 
     # Pushes all our changes
-    git push
+    echo "git push"
+    git push --quiet
 
     cd "$ORIGDIR"
 elif [ "$1" = "--submodule" ]
@@ -46,7 +50,7 @@ then
     if [ "$(grep -c "^nopull $SUBMODULE$" "$CONFIG")" = "0" ]
     then
 	echo "git pull"
-	git pull
+	git pull --quiet
     fi
 
     if [ "$(grep -c "^addall $SUBMODULE$" "$CONFIG")" = "1" ]
@@ -67,7 +71,7 @@ then
     if [ "$(grep -c "^nopush $SUBMODULE$" "$CONFIG")" = "0" ]
     then
 	echo "git push"
-        git push
+        git push --quiet
     fi
 
     echo ""
