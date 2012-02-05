@@ -75,4 +75,12 @@ then
     fi
 
     echo ""
+elif [ "$1" = "--init" ]; then
+    cd "$HOME"
+
+    git submodule init
+    git submodule sync
+    git submodule update
+    git submodule foreach git checkout master
+    nsync
 fi
