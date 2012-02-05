@@ -13,6 +13,7 @@ then
     echo "HOME $HOME"
     echo "git pull"
     git pull --quiet
+    echo ""
 
     # Recurses in every submodule, potentially doing some extra work
     git submodule foreach --quiet env SUBMODULE=\$path "$NSYNC" --submodule
