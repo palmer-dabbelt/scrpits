@@ -10,6 +10,10 @@ if [ "$1" = "" ]
 then
     cd "$HOME"
 
+    echo "HOME $HOME"
+    echo "git pull"
+    git pull --quiet
+
     # Recurses in every submodule, potentially doing some extra work
     git submodule foreach --quiet env SUBMODULE=\$path "$NSYNC" --submodule
 
