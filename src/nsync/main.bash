@@ -12,7 +12,7 @@ then
 
     echo "HOME $HOME"
     echo "git pull"
-    git pull --quiet --all
+    git pull --quiet
     echo ""
 
     # Recurses in every submodule, potentially doing some extra work
@@ -24,7 +24,7 @@ then
     # Done with submodules
     echo "HOME $HOME"
     echo "git pull"
-    git pull --quiet --all
+    git pull --quiet
 
     # Some things can just be automatically added
     grep "^add " "$CONFIG" | sed s/'^add '/''/ | while read file
@@ -55,7 +55,7 @@ then
     if [ "$(grep -c "^nopull $SUBMODULE$" "$CONFIG")" = "0" ]
     then
 	echo "git pull"
-	git pull --quiet --all
+	git pull --quiet
     fi
 
     if [ "$(grep -c "^addall $SUBMODULE$" "$CONFIG")" = "1" ]
