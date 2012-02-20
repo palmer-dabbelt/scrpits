@@ -1,5 +1,2 @@
-export WINEDBG=-all
-export WINEPREFIX=$HOME/.wineprefix/wingsoliberty/
-
-cd $WINEPREFIX/drive_c/users/palmer/Sc2gears/
+cd $HOME/.local/share/sc2gears/Sc2gears
 sh Sc2gears-linux.sh
