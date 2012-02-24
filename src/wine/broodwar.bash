@@ -1,5 +1,5 @@
 export WINEDBG=-all
-export WINEPREFIX=$HOME/.wineprefix/broodwar/
+export WINEPREFIX=$HOME/.local/share/wineprefix/broodwar/
 
 #cd $WINEPREFIX/drive_c/Program\ Files/Starcraft/
 #wine "StarCraft.exe"
