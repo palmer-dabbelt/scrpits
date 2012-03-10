@@ -11,7 +11,7 @@
 #include <stdint.h>
 
 #define V4L_FORMAT   V4L2_PIX_FMT_RGB24
-#define IMAGE_WIDTH      800
+#define IMAGE_WIDTH    800
 #define IMAGE_HEIGHT   600
 #define VIDEO_PATH   "/dev/video0"
 #define IMAGE_PATH   "v4l2.ppm"
@@ -26,8 +26,16 @@ int main(int argc, char **argv)
     char *output_filename;
 
     /* Opens the video VIDEO_PATH using the wrapped call */
-    video_dev = v4l2_open(VIDEO_PATH, O_RDWR);
-    assert(video_dev > 0);
+    if (argc == 3)
+        video_dev = v4l2_open(argv[2], O_RDWR);
+    else
+        video_dev = v4l2_open(VIDEO_PATH, O_RDWR);
+
+    if (video_dev == 0)
+    {
+        fprintf(stderr, "Unable to open video dev\n");
+        abort();
+    }
 
     /* Zeros out the format, just in case */
     memset(&format, 0x00, sizeof(format));
@@ -55,10 +63,13 @@ int main(int argc, char **argv)
     /* Figures out where to save the photo */
     if (argc == 1)
         output_filename = IMAGE_PATH;
-    else if (argc == 2)
+    else if ((argc == 2) || (argc == 3))
         output_filename = argv[1];
     else
+    {
+        fprintf(stderr, "Wrong number of arguments\n");
         abort();
+    }
 
     /* Actually takes the picture */
     {
