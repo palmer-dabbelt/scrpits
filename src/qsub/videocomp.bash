@@ -7,6 +7,8 @@ then
 fi
 
 THREADS="2"
+INFILE="$(readlink "$1")"
+OUTFILE="${INFILE}.mkv"
 
 jobdir=`mktemp -d`
 mkdir -p $jobdir
@@ -24,7 +26,7 @@ cat >$job_audio <<EOF
 #PBS -l nice=19
 
 mkfifo $tempdir/audiopipe
-mplayer "$1" -vo null -ao pcm:file=$tempdir/audiopipe:fast -quiet &
+mplayer "$INFILE" -vo null -ao pcm:file=$tempdir/audiopipe:fast -quiet &
 oggenc $tempdir/audiopipe -o $tempdir/audio.ogg -q 1 --quiet
 rm -f $tempdir/audiopipe
 EOF
@@ -36,7 +38,7 @@ cat >$job_video <<EOF
 #PBS -l nodes=1:ppn=$THREADS
 #PBS -l nice=19
 
-mencoder "$1" -o $tempdir/video.avi -oac mp3lame -lameopts preset=64 -ovc x264 -x264encopts crf=20:bframes=8:b-adapt=2:b-pyramid=normal:ref=8:direct=auto:me=tesa:subme=10:trellis=2:threads=$THREADS -quiet
+mencoder "$INFILE" -o $tempdir/video.avi -oac mp3lame -lameopts preset=64 -ovc x264 -x264encopts crf=20:bframes=8:b-adapt=2:b-pyramid=normal:ref=8:direct=auto:me=tesa:subme=10:trellis=2:threads=$THREADS -quiet
 EOF
 
 job_mux="$jobdir/$jobname"_m
@@ -46,7 +48,7 @@ echo >$job_mux <<EOF
 #PBS -l nodes=1:ppn=1
 #PBS -l nice=19
 
-mkvmerge -D $tempdir/audio.ogg -A $tempdir/video.avi "$1".mkv
+mkvmerge -D $tempdir/audio.ogg -A $tempdir/video.avi "$OUTFILE"
 rm -rf $tempdir
 EOF
 
