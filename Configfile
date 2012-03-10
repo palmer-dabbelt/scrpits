@@ -73,3 +73,6 @@ SOURCES	  += v4l2/v4l2ppm.c
 
 BINARIES  += v4l2img
 SOURCES	  += v4l2/v4l2img.bash
+
+BINARIES  += qsub_videocomp
+SOURCES	  += qsub/videocomp.bash
