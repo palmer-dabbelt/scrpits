@@ -17,8 +17,22 @@ static char int_to_char(int i)
 int main(int argc, char **argv)
 {
     int i;
+    FILE *dev_random;
 
-    srand(time(NULL));
+    dev_random = fopen("/dev/random", "r");
+    if (dev_random == NULL)
+    {
+        fprintf(stderr, "No /dev/random, using time to seed\n");
+        srand(time(NULL));
+    }
+    else
+    {
+        int seed;
+
+        fread(&seed, sizeof(seed), 1, dev_random);
+        srand(seed);
+        fclose(dev_random);
+    }
 
     for (i = 0; i < 16; i++)
         printf("%c", int_to_char(rand()));
