@@ -10,7 +10,7 @@ THREADS="2"
 INFILE="$(readlink -f $1)"
 OUTFILE="${INFILE}.mkv"
 
-export TMPDIR="/home/scratch/$USER/tmp"
+export TMPDIR="/home/scratch/$USER/tmp/qsub_videocomp"
 mkdir -p $TMPDIR
 tempdir=`mktemp -d`
 mkdir -p $tempdir
