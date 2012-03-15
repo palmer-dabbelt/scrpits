@@ -46,13 +46,13 @@ EOF
 job_mux="$tempdir/$jobname"_m
 cat >$job_mux <<EOF
 #!/bin/bash
-#PBS -q batch
+#PBS -q disk
 #PBS -l nodes=1:ppn=1
 #PBS -l nice=19
 #PBS -o $tempdir/${jobname}_m.out
 #PBS -e $tempdir/${jobname}_m.err
 
-mkvmerge -D $tempdir/audio.ogg -A $tempdir/video.avi "$OUTFILE"
+mkvmerge -D $tempdir/audio.ogg -A $tempdir/video.avi -o "$OUTFILE"
 rm -rf $tempdir
 EOF
 
