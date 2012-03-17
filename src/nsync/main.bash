@@ -40,12 +40,18 @@ then
     then
         # Asks for a commit message but also supplies one
 	echo "git commit"
-	git commit -m "nsync auto add" -e
+	git commit -m "nsync auto add" -e || true
     fi
 
     # Pushes all our changes
     echo "git push"
-    git push --quiet
+    git push --quiet || true
+
+    # If there is a Makefile then build it
+    if [ -e Makefile ]
+    then
+	make
+    fi
 
     cd "$ORIGDIR"
 elif [ "$1" = "--submodule" ]
