@@ -75,13 +75,14 @@ int main(int argc, char **argv)
     {
         int size;
         FILE *file;
+	int written;
 
         size = 3 * image_width * image_height;
         v4l2_read(video_dev, image_data, size);
 
         file = fopen(output_filename, "w");
         fprintf(file, "P6\n%d %d\n%d\n", image_width, image_height, 255);
-        fwrite(image_data, size, 1, file);
+        written = fwrite(image_data, size, 1, file);
         fclose(file);
     }
 }
