@@ -86,7 +86,8 @@ then
     fi
 
     echo ""
-elif [ "$1" = "--init" ]; then
+elif [ "$1" = "--init" ]
+then
     cd "$HOME"
 
     git submodule init
@@ -94,4 +95,21 @@ elif [ "$1" = "--init" ]; then
     git submodule update
     git submodule foreach git checkout master
     nsync
+elif [ "$1" == "--pull" ]
+then
+    cd "$HOME"
+
+    echo "$HOME"
+    git pull --quiet
+
+    # Adds every submodule, as we just want to keep them always updated
+    git submodule foreach --quiet "echo \$path ; git pull --quiet"
+
+    # If there is a Makefile then build it
+    if [ -e Makefile ]
+    then
+	make
+    fi
+
+    cd "$ORIGDIR"
 fi
