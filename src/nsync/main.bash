@@ -1,115 +1,75 @@
-#!/bin/bash
-
 set -e
 
-ORIGDIR=`pwd`
-NSYNC="$0"
-CONFIG="${HOME}/.nsyncrc"
-
-if [ "$1" = "" ]
+# We need to re-run exactly what we've been given many times
+nsync_args="$@"
+if test -x "$0"
 then
-    cd "$HOME"
+    nsync=$(readlink -f $0)
+else
+    nsync=$(which $0)
+fi
 
-    echo "HOME $HOME"
-    echo "git pull"
+# Parses the commandline options
+pull_only="false"
+until [ -z "$1" ]
+do
+    case $1 in
+	"--pull")
+	    pull_only="true"
+	    ;;
+	*)
+	    echo "Unknown option $1"
+	    exit 1
+	    ;;
+    esac
+	
+    shift
+done
+
+# If there isn't a config file then just use the default for everything
+if test -e .nsyncrc
+then
+    config=".nsyncrc"
+else
+    config="/dev/null"
+fi
+
+# First we need to pull in order to make sure we've got the latest modules
+if [[ $(cat $config | grep "^NOPULL$" | wc -l) == "0" ]]
+then
     git pull --quiet
-    echo ""
+fi
 
-    # Recurses in every submodule, potentially doing some extra work
-    git submodule foreach --quiet env SUBMODULE=\$path "$NSYNC" --submodule
+# Runs nsync in every submodule
+cat $config | grep "^SUBMODULE " | while read line
+do
+    # Parses the submodule format
+    submodule=`echo "$line" | cut -d ' ' -f 1`
+    path=`echo "$line" | cut -d ' ' -f 2`
+    remote=`echo "$line" | cut -d ' ' -f 3`
 
-    # Adds every submodule, as we just want to keep them always updated
-    git submodule foreach --quiet "cd $ORIGDIR ; git add \$path"
-
-    # Done with submodules
-    echo "HOME $HOME"
-    echo "git pull"
-    git pull --quiet
-
-    # Some things can just be automatically added
-    grep "^add " "$CONFIG" | sed s/'^add '/''/ | while read file
-    do
-	if test -e "$file"
-	then
-	    git add "$file"
-	fi
-    done
-
-    # If there are uncomitted files then add them 
-    if [ "$(git status --porcelain | wc -l)" != '0' ]
+    # If the submodule doesn't exist then clone it from the source
+    if test ! -e $path
     then
-        # Asks for a commit message but also supplies one
-	echo "git commit"
-	git commit -m "nsync auto add" -e || true
+	echo "Cloning $path from $remote"
+	git clone $remote $path
     fi
 
-    # Pushes all our changes
-    echo "git push"
-    git push --quiet || true
+    # Re-runs the given command in this submodule
+    echo "SUBMODULE $path"
+    cd $path
+    $nsync $nsync_args
+    cd - >& /dev/null
+done
 
-    # If there is a Makefile then build it
-    if [ -e Makefile ]
-    then
-	make
-    fi
-
-    cd "$ORIGDIR"
-elif [ "$1" = "--submodule" ]
+# Pushes all the changes
+if [[ $(cat $config | grep "^NOPUSH$" | wc -l) == "0" ]]
 then
-    echo "SUBMODULE $SUBMODULE"
+    git push --quiet
+fi
 
-    if [ "$(grep -c "^nopull $SUBMODULE$" "$CONFIG")" = "0" ]
-    then
-	echo "git pull"
-	git pull --quiet
-    fi
-
-    if [ "$(grep -c "^addall $SUBMODULE$" "$CONFIG")" = "1" ]
-    then
-	echo "git add ."
-	git add .
-    fi
-
-    if [ "$(grep -c "^commit $SUBMODULE$" "$CONFIG")" = "1" ]
-    then
-	if [ "$(git status --porcelain | wc -l)" != '0' ]
-	then
-            echo "git commit"
-            git commit -m "nsync auto add" -e
-	fi
-    fi
-
-    if [ "$(grep -c "^nopush $SUBMODULE$" "$CONFIG")" = "0" ]
-    then
-	echo "git push"
-        git push --quiet
-    fi
-
-    echo ""
-elif [ "$1" = "--init" ]
+# Runs make if there's a makefile here
+if test -e Makefile
 then
-    cd "$HOME"
-
-    git submodule init
-    git submodule sync
-    git submodule update
-    git submodule foreach git checkout master
-    nsync
-elif [ "$1" == "--pull" ]
-then
-    cd "$HOME"
-
-    echo "$HOME"
-    git pull --quiet
-
-    # Adds every submodule, as we just want to keep them always updated
-    git submodule foreach --quiet "echo \$path ; git pull --quiet"
-
-    # If there is a Makefile then build it
-    if [ -e Makefile ]
-    then
-	make
-    fi
-
-    cd "$ORIGDIR"
+    make -j$(cat /proc/cpuinfo | grep -c '^processor')
 fi
