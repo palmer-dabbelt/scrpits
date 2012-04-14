@@ -6,7 +6,7 @@ then
 	exit 1
 fi
 
-THREADS="2"
+THREADS="4"
 INFILE="$(readlink -f $1)"
 OUTFILE="${INFILE}.mkv"
 
@@ -56,8 +56,7 @@ mkvmerge -D $tempdir/audio.ogg -A $tempdir/video.avi -o "$OUTFILE"
 rm -rf $tempdir
 EOF
 
-jobid_audio=`qsub -h $job_audio`
-jobid_video=`qsub -h $job_video`
+jobid_audio=`qsub $job_audio`
+jobid_video=`qsub $job_video`
 jobid_mux=`qsub -W depend=afterany:$jobid_audio:$jobid_video $job_mux`
-qalter $jobid_audio -h n
-qalter $jobid_video -h n
+
