@@ -11,7 +11,10 @@ BINARIES  += gnome-terminal-wrapper
 SOURCES	  += gnome-terminal-wrapper/main.bash
 
 BINARIES  += gpgcat
-SOURCES	  += gpgcat/main.bash
+SOURCES	  += gpgcat/gpgcat.bash
+
+BINARIES  += gpgsed
+SOURCES	  += gpgcat/gpgsed.bash
 
 BINARIES  += flashfiles
 SOURCES	  += flashfiles/main.bash
@@ -82,3 +85,6 @@ SOURCES	  += pac/sync.bash
 
 BINARIES  += pacupdate
 SOURCES	  += pac/update.bash
+
+BINARIES  += bedtime
+SOURCES	  += qsub/bedtime.bash
