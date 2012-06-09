@@ -11,11 +11,15 @@ fi
 
 # Parses the commandline options
 pull_only="false"
+annex_get_all="false"
 until [ -z "$1" ]
 do
     case $1 in
 	"--pull")
 	    pull_only="true"
+	    ;;
+	"--annex-get-all")
+	    annex_get_all="true"
 	    ;;
 	*)
 	    echo "Unknown option $1"
@@ -61,6 +65,17 @@ do
     $nsync $nsync_args
     cd - >& /dev/null
 done
+
+# If there's a git-annex then we should merge it now
+if test -d ".git/annex/"
+then
+    git annex merge --quiet
+
+    if [[ "$annex_get_all" == "true" ]]
+    then
+	git annex get . --quiet
+    fi
+fi
 
 # Pushes all the changes
 if [[ $(cat $config | grep "^NOPUSH$" | wc -l) == "0" ]]
