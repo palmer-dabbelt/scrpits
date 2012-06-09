@@ -1,1 +1,1 @@
-emerge -avNDu world
+emerge -avNDu world "$@"
