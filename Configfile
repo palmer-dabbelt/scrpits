@@ -88,3 +88,12 @@ SOURCES	  += pac/update.bash
 
 BINARIES  += bedtime
 SOURCES	  += qsub/bedtime.bash
+
+BINARIES  += getmail
+SOURCES	  += mail/getmail.bash
+
+BINARIES  += mailmaint
+SOURCES	  += mail/mailmaint.bash
+
+BINARIES  += syncmail
+SOURCES	  += mail/syncmail.bash

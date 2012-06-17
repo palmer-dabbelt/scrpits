@@ -45,6 +45,7 @@ then
 fi
 
 # Runs nsync in every submodule
+unset has_submodules
 cat $config | grep "^SUBMODULE " | while read line
 do
     # Parses the submodule format
@@ -64,7 +65,15 @@ do
     cd $path
     $nsync $nsync_args
     cd - >& /dev/null
+
+    # There were some submodules
+    has_submodules="true"
 done
+
+if [[ "$has_submodules" == "true" ]]
+then
+    echo "MAIN"
+fi
 
 # If there's a git-annex then we should merge it now
 if test -d ".git/annex/"
@@ -81,6 +90,20 @@ fi
 if [[ $(cat $config | grep "^NOPUSH$" | wc -l) == "0" ]]
 then
     git push --quiet
+fi
+
+# Checks if there are any changes
+if [[ "$(git ls-files --others --exclude-standard)" != "" ]]
+then
+    echo "Untracked files"
+fi
+if [[ "$(git diff-files)" != "" ]]
+then
+    echo "Unstaged changes"
+fi
+if [[ "$(git diff-index --cached HEAD)" != "" ]]
+then
+    echo "Uncomitted changes"
 fi
 
 # Runs make if there's a makefile here
