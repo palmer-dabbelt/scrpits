@@ -1,1 +1,0 @@
-ffmpeg -f x11grab -s 1680x1050 -r 50 -i :0.0 -f alsa -i pulse -vcodec libx264 -threads 2 -vpre ultrafast -s 1136x704 -b 800k -maxrate 800k -bufsize 2000k -g 100 -acodec libmp3lame -ab 64000 -ar 44100 -ac 1 -f flv "$JSTREAM_API_KEY"

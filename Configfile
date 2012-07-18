@@ -2,22 +2,19 @@ LANGUAGES += bash
 LANGUAGES += c
 
 BINARIES  += nsync
-SOURCES   += nsync/main.bash
+SOURCES   += nsync.bash
 
 BINARIES  += chkindent
-SOURCES	  += chkindent/main.bash
-
-BINARIES  += gnome-terminal-wrapper
-SOURCES	  += gnome-terminal-wrapper/main.bash
+SOURCES	  += chkindent.bash
 
 BINARIES  += gpgcat
-SOURCES	  += gpgcat/gpgcat.bash
+SOURCES	  += gpgcat.bash
 
 BINARIES  += gpgsed
-SOURCES	  += gpgcat/gpgsed.bash
+SOURCES	  += gpgsed.bash
 
 BINARIES  += flashfiles
-SOURCES	  += flashfiles/main.bash
+SOURCES	  += flashfiles.bash
 
 BINARIES  += wingsoliberty
 SOURCES	  += wine/wingsoliberty.bash
@@ -32,13 +29,10 @@ BINARIES  += broodwar
 SOURCES	  += wine/broodwar.bash
 
 BINARIES  += randompass
-SOURCES	  += randompass/main.c
+SOURCES	  += randompass.c
 
 BINARIES  += remake
-SOURCES	  += remake/main.c
-
-BINARIES  += jstream
-SOURCES	  += jstream/main.bash
+SOURCES	  += remake.c
 
 BINARIES  += soulcalibur2
 SOURCES	  += dolphin/soulcalibur2.bash
@@ -50,50 +44,44 @@ BINARIES  += steam
 SOURCES	  += wine/steam.bash
 
 BINARIES  += mathematica
-SOURCES	  += mathematica/mathematica.bash
+SOURCES	  += mathematica.bash
 
 BINARIES  += cnotes
-SOURCES	  += cnotes/main.bash
+SOURCES	  += cnotes.bash
 
 BINARIES  += ppulse
-SOURCES	  += ppulse/main.bash
+SOURCES	  += ppulse.bash
 
 BINARIES  += mkuse
-SOURCES	  += mkuse/main.bash
-
-BINARIES  += sumcheck
-SOURCES	  += sumcheck/sumcheck.bash
-
-BINARIES  += allsumcheck
-SOURCES	  += sumcheck/allsumcheck.bash
+SOURCES	  += mkuse.bash
 
 BINARIES  += mailaddr
-SOURCES	  += mailaddr/main.bash
+SOURCES	  += mailaddr.bash
 
 BINARIES  += v4l2ppm
 LINKOPTS  += -lv4l2
-SOURCES	  += v4l2/v4l2ppm.c
+SOURCES	  += v4l2ppm.c
 
 BINARIES  += v4l2img
-SOURCES	  += v4l2/v4l2img.bash
+SOURCES	  += v4l2img.bash
 
 BINARIES  += qsub_videocomp
-SOURCES	  += qsub/videocomp.bash
+SOURCES	  += qsub_videocomp.bash
 
 BINARIES  += pacsync
-SOURCES	  += pac/sync.bash
+SOURCES	  += pacsync.bash
 
 BINARIES  += pacupdate
-SOURCES	  += pac/update.bash
+SOURCES	  += pacupdate.bash
 
 BINARIES  += bedtime
-SOURCES	  += qsub/bedtime.bash
+SOURCES	  += bedtime.bash
 
 BINARIES  += getmail
-SOURCES	  += mail/getmail.bash
+SOURCES	  += getmail.bash
 
 BINARIES  += mailmaint
-SOURCES	  += mail/mailmaint.bash
+SOURCES	  += mailmaint.bash
 
 BINARIES  += syncmail
-SOURCES	  += mail/syncmail.bash
+SOURCES	  += syncmail.bash
