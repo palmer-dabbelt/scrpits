@@ -24,4 +24,9 @@ syncmail "(auto) mailmaint: clean"
 # Compacts the folders
 /usr/bin/folders -pack
 
+syncmail "(auto) mailmaint: compact"
+
+# Goes back to the inbox
+folder inbox
+
 syncmail "(auto) mailmaint: end"
