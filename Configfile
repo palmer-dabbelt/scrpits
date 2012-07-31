@@ -85,3 +85,7 @@ SOURCES	  += mailmaint.bash
 
 BINARIES  += syncmail
 SOURCES	  += syncmail.bash
+
+BINARIES  += xemacs
+SOURCES	  += xemacs.bash
+
