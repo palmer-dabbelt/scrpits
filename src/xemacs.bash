@@ -1,1 +1,1 @@
-/usr/bin/emacs "$@" >& /dev/null &
+`which emacs` "$@" >& /dev/null &
