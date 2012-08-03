@@ -1,17 +1,9 @@
 set -e
 
-# We need to re-run exactly what we've been given many times
-nsync_args="$@"
-if test -x "$0"
-then
-    nsync=$(readlink -f $0)
-else
-    nsync=$(which $0)
-fi
-
 # Parses the commandline options
 pull_only="false"
 annex_get_all="false"
+verbose="false"
 until [ -z "$1" ]
 do
     case $1 in
@@ -20,6 +12,9 @@ do
 	    ;;
 	"--annex-get-all")
 	    annex_get_all="true"
+	    ;;
+	"--verbose")
+	    verbose="true"
 	    ;;
 	*)
 	    echo "Unknown option $1"
@@ -33,19 +28,12 @@ done
 # If there isn't a config file then just use the default for everything
 if test -e .nsyncrc
 then
-    config=".nsyncrc"
+    config="$(readlink -f .nsyncrc)"
 else
     config="/dev/null"
 fi
 
-# First we need to pull in order to make sure we've got the latest modules
-if [[ $(cat $config | grep "^NOPULL$" | wc -l) == "0" ]]
-then
-    git pull --quiet
-fi
-
 # Runs nsync in every submodule
-unset has_submodules
 cat $config | grep "^SUBMODULE " | while read line
 do
     # Parses the submodule format
@@ -63,51 +51,65 @@ do
     # Re-runs the given command in this submodule
     echo "SUBMODULE $path"
     cd $path
-    $nsync $nsync_args
-    cd - >& /dev/null
 
-    # There were some submodules
-    has_submodules="true"
-done
-
-if [[ "$has_submodules" == "true" ]]
-then
-    echo "MAIN"
-fi
-
-# If there's a git-annex then we should merge it now
-if test -d ".git/annex/"
-then
-    git annex merge --quiet
-
-    if [[ "$annex_get_all" == "true" ]]
+    if [[ $(cat $config | grep "^NOPULL $path$" | wc -l) == "0" ]]
     then
-	git annex get . --quiet
+	if [[ "$verbose" == "true" ]]; then echo -e "\tPULL"; fi
+	git pull --quiet
+    else
+	if [[ "$verbose" == "true" ]]; then echo -e "\tNO PULL"; fi
     fi
-fi
 
-# Pushes all the changes
-if [[ $(cat $config | grep "^NOPUSH$" | wc -l) == "0" ]]
-then
-    git push --quiet
-fi
+    # If there's an updated git-config then use it
+    if test -e .git-config
+    then
+	if [[ "$verbose" == "true" ]]; then echo -e "\tCONFIG"; fi
+	cp .git-config .git/config
+	sed s/@@hostname@@/$(hostname)/ -i .git/config
+    fi
 
-# Checks if there are any changes
-if [[ "$(git ls-files --others --exclude-standard)" != "" ]]
-then
-    echo "Untracked files"
-fi
-if [[ "$(git diff-files)" != "" ]]
-then
-    echo "Unstaged changes"
-fi
-if [[ "$(git diff-index --cached HEAD)" != "" ]]
-then
-    echo "Uncomitted changes"
-fi
+    # Merges (and potentially gets) the git-annex stuff
+    if [[ $(cat $config | grep "^ANNEX $path$" | wc -l) != "0" ]]
+    then
+	if [[ "$verbose" == "true" ]]; then echo -e "\tANNEX"; fi
+	git annex merge --quiet
+	
+	if [[ "$annex_get_all" == "true" ]]
+	then
+	    if [[ "$verbose" == "true" ]]; then echo -e "\tANNEX GET"; fi
+	    git annex get . --quiet
+	fi
+    fi
+
+    # Checks if there are any changes
+    if [[ "$(git ls-files --others --exclude-standard)" != "" ]]
+    then
+	echo -e "\tUntracked files"
+    fi
+    if [[ "$(git diff-files)" != "" ]]
+    then
+	echo -e "\tUnstaged changes"
+    fi
+    if [[ "$(git diff-index --cached HEAD)" != "" ]]
+    then
+	echo -e "\tUncomitted changes"
+    fi
+
+    # Pushes all the changes
+    if [[ $(cat $config | grep "^NOPUSH$" | wc -l) == "0" ]]
+    then
+	if [[ "$verbose" == "true" ]]; then echo -e "\tPUSH"; fi
+	git push --quiet
+    else
+	if [[ "$verbose" == "true" ]]; then echo -e "\tNO PUSH"; fi
+    fi
+
+    # Returns to the path we care about
+    cd - >& /dev/null
+done
 
 # Runs make if there's a makefile here
 if test -e Makefile
 then
-    make -j$(cat /proc/cpuinfo | grep -c '^processor')
+    make
 fi
