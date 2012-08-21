@@ -91,3 +91,6 @@ SOURCES	  += xemacs.bash
 
 BINARIES  += mailphoto
 SOURCES   += mailphoto.bash
+
+BINARIES  += mailtimesheet
+SOURCES   += mailtimesheet.bash
