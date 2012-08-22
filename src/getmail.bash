@@ -1,9 +1,8 @@
-last_message=$(scan inbox | tail -1 | xargs echo | cut -d ' ' -f 1)
+last_message=$(folder --last-message inbox)
 
 fetchmail || [ $? -eq 1 ]
 if [[ "$?" == "0" ]]
 then
-    show $(($last_message + 1)) >& /dev/null
+    show inbox $(($last_message + 1)) >& /dev/null
     scan
 fi
-
