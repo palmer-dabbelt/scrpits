@@ -75,7 +75,7 @@ int main(int argc, char **argv)
     {
         int size;
         FILE *file;
-	int written;
+        int written;
 
         size = 3 * image_width * image_height;
         v4l2_read(video_dev, image_data, size);

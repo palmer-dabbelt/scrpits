@@ -28,7 +28,7 @@ int main(int argc, char **argv)
     else
     {
         int seed;
-	int readed;
+        int readed;
 
         readed = fread(&seed, sizeof(seed), 1, dev_random);
         srand(seed);
