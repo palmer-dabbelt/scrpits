@@ -16,12 +16,13 @@ end_date_path=$(date -d @$end_time +%Y-%m-%d)
 cat >$temp/message <<EOF
 From:   Palmer Dabbelt <pdabbelt@tilera.com>
 To:     Richard Schooler <rschooler@tilera.com>
+CC:     Cristy Agbayani <cagbayani@tilera.com>
 Subject: Timesheet for $end_date_pretty
 
 EOF
 
 
-for dif in $(seq 14 -1 1)
+for dif in $(seq 7 -1 1)
 do
     time=$(($end_time - 24 * 60 * 60 * $dif))
     date=$(date -d @$time +%Y-%m-%d)
