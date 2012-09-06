@@ -94,3 +94,6 @@ SOURCES   += mailphoto.bash
 
 BINARIES  += mailtimesheet
 SOURCES   += mailtimesheet.bash
+
+BINARIES  += tile-console
+SOURCES   += tile-console.bash
