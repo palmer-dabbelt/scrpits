@@ -1,8 +1,9 @@
-last_message=$(folder --last-message inbox)
+orig=$(folder --last-message +inbox)
 
-fetchmail -s || [ $? -eq 1 ]
+fetchmail
 if [[ "$?" == "0" ]]
 then
-    show inbox $(($last_message + 1)) >& /dev/null
-    scan --start-from $(($last_message + 1))
+    fin=$(folder --last-message +inbox)
+    show +inbox $(($orig + 1)) >& /dev/null
+    scan +inbox $(seq $(($orig + 1)) $fin)
 fi
