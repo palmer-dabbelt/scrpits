@@ -24,8 +24,14 @@ then
     exit $?
 fi
 
+options=""
+if test -f ".chkindentrc"
+then
+    options=`head -n1 .chkindentrc`
+fi
+
 return="0"
-for f in `find "$dir" -name "*.[ch]"`
+for f in `find "$dir" $options -name "*.[ch]" -print`
 do
     if [[ `stat "$f" --format %F` == "regular file" ]]
     then
