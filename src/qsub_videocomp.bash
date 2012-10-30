@@ -6,7 +6,7 @@ then
 	exit 1
 fi
 
-THREADS="4"
+THREADS="2"
 INFILE="$(readlink -f $1)"
 OUTFILE="${INFILE}.mkv"
 
