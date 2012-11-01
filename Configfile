@@ -97,3 +97,6 @@ SOURCES   += mailtimesheet.bash
 
 BINARIES  += tile-console
 SOURCES   += tile-console.bash
+
+BINARIES  += annex-cost
+SOURCES   += annex-cost.bash
