@@ -100,3 +100,6 @@ SOURCES   += tile-console.bash
 
 BINARIES  += annex-cost
 SOURCES   += annex-cost.bash
+
+BINARIES  += croncheck
+SOURCES	  += croncheck.bash
