@@ -29,7 +29,7 @@ fi
 temp=$(mktemp -d)
 
 # If it's necessary to get a webcam photo then go ahead and get a good one
-if [[ "$webcam" == "true"]]
+if [[ "$webcam" == "true" ]]
 then
     good="no"
     while [[ "$good" != "yes" ]]
