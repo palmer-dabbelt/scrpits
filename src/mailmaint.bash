@@ -43,6 +43,6 @@ done
 syncmail "(auto) mailmaint: compact"
 
 # Goes back to the inbox
-folder inbox
+folder +inbox
 
 syncmail "(auto) mailmaint: end"
