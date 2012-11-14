@@ -65,7 +65,15 @@ do
     then
 	if [[ "$verbose" == "true" ]]; then echo -e "\tCONFIG"; fi
 	cp .git-config .git/config
-	sed s/@@hostname@@/$(hostname)/ -i .git/config
+
+	hostname=$(hostname)
+	if [[ "$(cat $config | grep "^UUID $path" | wc -l)" != "0" ]]
+	then
+	    hostname="$(cat $config | grep "^UUID $path" -m1 | cut -d' ' -f 3)"
+	    if [[ "$verbose" == "true" ]]; then echo -e "\t\tHN $hostname"; fi
+	fi
+
+	sed s/@@hostname@@/$hostname/ -i .git/config
     fi
 
     # Merges (and potentially gets) the git-annex stuff
