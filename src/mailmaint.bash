@@ -22,7 +22,23 @@ done
 syncmail "(auto) mailmaint: clean"
 
 # Compacts the folders
-/usr/bin/folders -pack
+for folder in $(mhng-pipe-folder_info --folders)
+do
+    cd $(mhpath +$folder)
+
+    dest="1"
+    mhng-pipe-time_scan +$folder | while read line
+    do
+	cur=`echo $line | cut -d ' ' -f 1`
+
+	if [[ "$dest" != "$cur" ]]
+	then
+	    mv "$cur" "$dest"
+	fi
+
+	dest=$(($dest + 1))
+    done
+done
 
 syncmail "(auto) mailmaint: compact"
 
