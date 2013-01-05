@@ -22,7 +22,7 @@ Subject: Timesheet for $end_date_pretty
 EOF
 
 
-for dif in $(seq 7 -1 1)
+for dif in $(seq 6 -1 0)
 do
     time=$(($end_time - 24 * 60 * 60 * $dif))
     date=$(date -d @$time +%Y-%m-%d)
