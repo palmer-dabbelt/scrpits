@@ -103,6 +103,3 @@ SOURCES   += annex-cost.bash
 
 BINARIES  += croncheck
 SOURCES	  += croncheck.bash
-
-BINARIES  += ffwrap
-SOURCES	  += ffwrap.bash
