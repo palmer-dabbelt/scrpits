@@ -4,7 +4,7 @@ syncmail "(auto) mailmaint: start"
 current_date=`date +%s`
 for folder in $(echo trash sent)
 do
-    mhng-pipe-time_scan $folder | while read line
+    mhng-pipe-time_scan +$folder | while read line
     do
 	message_id=`echo $line | cut -d ' ' -f 1`
 	message_date=`echo $line | cut -d ' ' -f 2`
