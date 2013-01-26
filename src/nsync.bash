@@ -1,20 +1,31 @@
 set -e
 
 # Parses the commandline options
+nsync="$0"
 pull_only="false"
 annex_get_all="false"
 verbose="false"
+submodule=""
+subargs=""
+parallel="8"
 until [ -z "$1" ]
 do
     case $1 in
 	"--pull")
 	    pull_only="true"
+	    subargs="$subargs --pull"
 	    ;;
 	"--annex-get-all")
 	    annex_get_all="true"
+	    subargs="$subargs --annex-get-all"
 	    ;;
 	"--verbose")
 	    verbose="true"
+	    subargs="$subargs --verbose"
+	    ;;
+	"--submodule")
+	    submodule="$2"
+	    shift
 	    ;;
 	*)
 	    echo "Unknown option $1"
@@ -33,8 +44,23 @@ else
     config="/dev/null"
 fi
 
-# Runs nsync in every submodule
-cat $config | grep "^SUBMODULE " | while read line
+if [[ "$submodule" == "" ]]
+then
+    cat $config | grep "^SUBMODULE " | cut -d' ' -f2 | \
+	parallel -j $parallel "$nsync" $subargs --submodule 
+
+    # Runs make if there's a makefile here
+    if test -e Makefile
+    then
+	make
+    fi
+
+    exit 0
+fi
+
+# In this case we must have been given a submodule argument, find the
+# matching submodule and process it now
+cat $config | grep "^SUBMODULE $submodule " | while read line
 do
     # Parses the submodule format
     submodule=`echo "$line" | cut -d ' ' -f 1`
@@ -115,9 +141,3 @@ do
     # Returns to the path we care about
     cd - >& /dev/null
 done
-
-# Runs make if there's a makefile here
-if test -e Makefile
-then
-    make
-fi
