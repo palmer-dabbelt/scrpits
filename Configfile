@@ -32,7 +32,7 @@ BINARIES  += randompass
 SOURCES	  += randompass.c
 
 BINARIES  += remake
-SOURCES	  += remake.c
+SOURCES	  += remake.bash
 
 BINARIES  += soulcalibur2
 SOURCES	  += dolphin/soulcalibur2.bash
