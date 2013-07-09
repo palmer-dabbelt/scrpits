@@ -1,3 +1,4 @@
+#ifdef HAVE_LIBV4L2
 
 /* part of media-libs/libv4l */
 #include <libv4l2.h>
@@ -86,3 +87,16 @@ int main(int argc, char **argv)
         fclose(file);
     }
 }
+
+#else /* HAVE_V4L2 */
+
+#include <stdio.h>
+
+int main(int argc __attribute__ ((unused)), int argv __attribute__ ((unused)))
+{
+    fprintf(stderr, "libv4l2 not installed\n");
+    
+    return 1;
+}
+
+#endif

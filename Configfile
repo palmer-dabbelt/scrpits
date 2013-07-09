@@ -55,9 +55,10 @@ SOURCES	  += mkuse.bash
 BINARIES  += mailaddr
 SOURCES	  += mailaddr.bash
 
-BINARIES  += v4l2ppm
-LINKOPTS  += -lv4l2
-SOURCES	  += v4l2ppm.c
+BINARIES    += v4l2ppm
+COMPILEOPTS += `ppkg-config --optional --have LIBV4L2 libv4l2 --cflags`
+LINKOPTS    += `ppkg-config --optional --have LIBV4L2 libv4l2 --libs`
+SOURCES	    += v4l2ppm.c
 
 BINARIES  += v4l2img
 SOURCES	  += v4l2img.bash
