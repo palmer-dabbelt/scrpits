@@ -32,6 +32,10 @@ do
             read_only="true"
 	    subargs="$subargs --read-only"
             ;;
+	"--parallel")
+	    parallel="$2"
+	    shift
+	    ;;
 	*)
 	    echo "Unknown option $1"
 	    exit 1
