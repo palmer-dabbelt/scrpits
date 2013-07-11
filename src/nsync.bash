@@ -3,6 +3,7 @@ set -e
 # Parses the commandline options
 nsync="$0"
 pull_only="false"
+read_only="false"
 annex_get_all="false"
 verbose="false"
 submodule=""
@@ -27,6 +28,10 @@ do
 	    submodule="$2"
 	    shift
 	    ;;
+        "--read-only")
+            read_only="true"
+	    subargs="$subargs --read-only"
+            ;;
 	*)
 	    echo "Unknown option $1"
 	    exit 1
@@ -116,24 +121,30 @@ do
     fi
 
     # Checks if there are any changes
-    if [[ "$(git ls-files --others --exclude-standard)" != "" ]]
+    if [[ "$read_only" == "false" ]]
     then
-	echo -e "\tUntracked files"
-    fi
-    if [[ "$(git diff-files)" != "" ]]
-    then
-	echo -e "\tUnstaged changes"
-    fi
-    if [[ "$(git diff-index --cached HEAD)" != "" ]]
-    then
-	echo -e "\tUncomitted changes"
+	if [[ "$(git ls-files --others --exclude-standard)" != "" ]]
+	then
+	    echo -e "\tUntracked files"
+	fi
+	if [[ "$(git diff-files)" != "" ]]
+	then
+	    echo -e "\tUnstaged changes"
+	fi
+	if [[ "$(git diff-index --cached HEAD)" != "" ]]
+	then
+	    echo -e "\tUncomitted changes"
+	fi
     fi
 
     # Pushes all the changes
     if [[ $(cat $config | grep "^NOPUSH$" | wc -l) == "0" ]]
     then
-	if [[ "$verbose" == "true" ]]; then echo -e "\tPUSH"; fi
-	git push --quiet
+        if [[ "$read_only" == "false" ]]
+        then
+	    if [[ "$verbose" == "true" ]]; then echo -e "\tPUSH"; fi
+	    git push --quiet
+        fi
     else
 	if [[ "$verbose" == "true" ]]; then echo -e "\tNO PUSH"; fi
     fi
