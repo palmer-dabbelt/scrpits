@@ -71,6 +71,12 @@ then
     exit 0
 fi
 
+if [[ $(cat $config | grep "^SKIP $submodule$" | wc -l) != "0" ]]
+then
+    echo "SKIP $submodule"
+    exit 0
+fi
+
 # In this case we must have been given a submodule argument, find the
 # matching submodule and process it now
 cat $config | grep "^SUBMODULE $submodule " | while read line
