@@ -46,11 +46,15 @@ do
 done
 
 # If there isn't a config file then just use the default for everything
+config="/dev/null"
 if test -e .nsyncrc
 then
     config="$(readlink -f .nsyncrc)"
-else
-    config="/dev/null"
+fi
+
+if test -e .nsyncrc.local
+then
+    config="$(readlink -f .nsyncrc.local) $config"
 fi
 
 if [[ "$submodule" == "" ]]
