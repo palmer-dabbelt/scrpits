@@ -113,3 +113,6 @@ SOURCES	  += xfce4-terminal.bash
 
 BINARIES  += start_offlineimap
 SOURCES   += start_offlineimap.bash
+
+BINARIES  += afreeca
+SOURCES   += qemu/afreeca.bash
