@@ -16,6 +16,7 @@ revdep-rebuild
 perl-cleaner --modules
 python-updater
 haskell-updater
+emacs-updater
 
 # Remove anything unnecessary that was installed during the update
 # process
