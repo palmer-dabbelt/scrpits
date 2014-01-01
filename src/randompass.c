@@ -2,6 +2,10 @@
 #include <stdio.h>
 #include <time.h>
 
+#ifndef PASSWORD_CHARS
+#define PASSWORD_CHARS 16
+#endif
+
 static char int_to_char(int i)
 {
     i = i % 62;
@@ -18,25 +22,23 @@ int main(int argc, char **argv)
 {
     int i;
     FILE *dev_random;
+    unsigned char buffer[PASSWORD_CHARS];
 
     dev_random = fopen("/dev/random", "r");
     if (dev_random == NULL)
     {
-        fprintf(stderr, "No /dev/random, using time to seed\n");
-        srand(time(NULL));
+        fprintf(stderr, "No /dev/random, aborting\n");
+        abort();
     }
-    else
+
+    if (fread(&buffer, sizeof(buffer), 1, dev_random) != 1)
     {
-        int seed;
-        int readed;
-
-        readed = fread(&seed, sizeof(seed), 1, dev_random);
-        srand(seed);
-        fclose(dev_random);
+        fprintf(stderr, "Short read, aborting\n");
+        abort();
     }
 
-    for (i = 0; i < 16; i++)
-        printf("%c", int_to_char(rand()));
+    for (i = 0; i < PASSWORD_CHARS; i++)
+        printf("%c", int_to_char(buffer[i]));
 
     printf("\n");
 
