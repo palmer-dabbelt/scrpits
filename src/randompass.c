@@ -25,14 +25,12 @@ int main(int argc, char **argv)
     unsigned char buffer[PASSWORD_CHARS];
 
     dev_random = fopen("/dev/random", "r");
-    if (dev_random == NULL)
-    {
+    if (dev_random == NULL) {
         fprintf(stderr, "No /dev/random, aborting\n");
         abort();
     }
 
-    if (fread(&buffer, sizeof(buffer), 1, dev_random) != 1)
-    {
+    if (fread(&buffer, sizeof(buffer), 1, dev_random) != 1) {
         fprintf(stderr, "Short read, aborting\n");
         abort();
     }

@@ -2,11 +2,12 @@
 -bap
 -bbb
 -nbc
--bl
 -bli0
 -bls
+-br
 -cbi0
 -cdw
+-ce
 -ncs
 -i4
 -l78

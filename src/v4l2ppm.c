@@ -32,8 +32,7 @@ int main(int argc, char **argv)
     else
         video_dev = v4l2_open(VIDEO_PATH, O_RDWR);
 
-    if (video_dev == 0)
-    {
+    if (video_dev == 0) {
         fprintf(stderr, "Unable to open video dev\n");
         abort();
     }
@@ -66,8 +65,7 @@ int main(int argc, char **argv)
         output_filename = IMAGE_PATH;
     else if ((argc == 2) || (argc == 3))
         output_filename = argv[1];
-    else
-    {
+    else {
         fprintf(stderr, "Wrong number of arguments\n");
         abort();
     }
@@ -95,7 +93,7 @@ int main(int argc, char **argv)
 int main(int argc __attribute__ ((unused)), int argv __attribute__ ((unused)))
 {
     fprintf(stderr, "libv4l2 not installed\n");
-    
+
     return 1;
 }
 
