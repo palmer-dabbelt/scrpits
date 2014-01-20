@@ -116,3 +116,6 @@ SOURCES   += start_offlineimap.bash
 
 BINARIES  += afreeca
 SOURCES   += qemu/afreeca.bash
+
+BINARIES  += gpggrep
+SOURCES   += gpggrep.bash
