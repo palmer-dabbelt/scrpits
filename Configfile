@@ -108,9 +108,6 @@ SOURCES   += qemu-kvm.bash
 BINARIES  += firstboot
 SOURCES	  += firstboot.bash
 
-BINARIES  += xfce4-terminal
-SOURCES	  += xfce4-terminal.bash
-
 BINARIES  += start_offlineimap
 SOURCES   += start_offlineimap.bash
 
