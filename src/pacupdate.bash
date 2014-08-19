@@ -15,7 +15,10 @@ emerge -av @preserved-rebuild
 revdep-rebuild
 perl-cleaner --modules
 python-updater
-haskell-updater
+if [[ `which haskell-updater 2>/dev/null` != "" ]]
+then
+    haskell-updater
+fi
 emacs-updater
 
 # Remove anything unnecessary that was installed during the update
