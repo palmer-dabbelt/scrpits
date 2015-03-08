@@ -116,3 +116,6 @@ SOURCES   += qemu/afreeca.bash
 
 BINARIES  += gpggrep
 SOURCES   += gpggrep.bash
+
+BINARIES  += cryptmount
+SOURCES   += cryptmount.bash
