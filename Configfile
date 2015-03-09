@@ -119,3 +119,6 @@ SOURCES   += gpggrep.bash
 
 BINARIES  += cryptmount
 SOURCES   += cryptmount.bash
+
+BINARIES  += cryptumount
+SOURCES   += cryptumount.bash
