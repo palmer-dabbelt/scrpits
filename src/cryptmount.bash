@@ -4,5 +4,7 @@ ls /etc/disk-keys/ | while read f
                                    -d /etc/disk-keys/$f \
                                    --allow-discards \
                                    $1 crypt-$f || continue
-                        mount /dev/mapper/crypt-$f
+                        mount /dev/mapper/crypt-$f && exit 0
+                        cryptsetup luksClose crypt-$f
+                        exit 1
                     done
