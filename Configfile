@@ -122,3 +122,6 @@ SOURCES   += cryptmount.bash
 
 BINARIES  += cryptumount
 SOURCES   += cryptumount.bash
+
+BINARIES  += multiwan
+SOURCES   += multiwan.bash
