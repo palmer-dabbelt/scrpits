@@ -31,9 +31,6 @@ SOURCES	  += wine/iccup.bash
 BINARIES  += randompass
 SOURCES	  += randompass.c
 
-BINARIES  += remake
-SOURCES	  += remake.bash
-
 BINARIES  += soulcalibur2
 SOURCES	  += dolphin/soulcalibur2.bash
 
