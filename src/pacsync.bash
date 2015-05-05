@@ -1,2 +1,1 @@
-emerge --sync
-layman --sync-all
+emaint sync --all
