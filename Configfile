@@ -122,3 +122,9 @@ SOURCES   += cryptumount.bash
 
 BINARIES  += multiwan
 SOURCES   += multiwan.bash
+
+BINARIES  += broodwar
+SOURCES   += broodwar.bash
+
+BINARIES  += broodwar-xinitrc
+SOURCES   += broodwar-xinitrc.bash
