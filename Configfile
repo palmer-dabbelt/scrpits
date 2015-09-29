@@ -131,3 +131,6 @@ SOURCES   += broodwar-xinitrc.bash
 
 BINARIES  += padduser
 SOURCES   += padduser.bash
+
+BINARIES  += bmake
+SOURCES   += bmake.bash
