@@ -90,7 +90,7 @@ int main(int argc, char **argv)
 
 #include <stdio.h>
 
-int main(int argc __attribute__ ((unused)), int argv __attribute__ ((unused)))
+int main(int argc __attribute__ ((unused)), char ** argv __attribute__ ((unused)))
 {
     fprintf(stderr, "libv4l2 not installed\n");
 
